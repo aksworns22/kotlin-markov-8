@@ -18,7 +18,7 @@ class ReadingMapFeatureTest {
     fun `지도 크기가 양수가 아니라면 예외를 발생시킨다`(width: Int, height: Int) {
         assertThatThrownBy { MapSize(width, height) }
             .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining(MapSize.INVALID_VALUE_ERROR_MESSAGE);
+            .hasMessageContaining(MapSize.INVALID_VALUE_ERROR_MESSAGE)
     }
 
     @ParameterizedTest
