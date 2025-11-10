@@ -13,6 +13,12 @@ class ReadingMapFeatureTest {
             .doesNotThrowAnyException()
     }
 
+    @Test
+    fun `지도 크기를 읽어온다`() {
+        assertThatCode { MapSize(1, 1) }
+            .doesNotThrowAnyException()
+    }
+
     @ParameterizedTest
     @CsvSource(value = ["0, 1", "1, 0", "-1, 1", "1, -1", "0, 0", "-1, -1"])
     fun `지도 크기가 양수가 아니라면 예외를 발생시킨다`(width: Int, height: Int) {
@@ -23,8 +29,8 @@ class ReadingMapFeatureTest {
 
     @ParameterizedTest
     @ValueSource(strings = ["a", "1.5", "1.0", "-1", "0", " ", "", "@"])
-    fun `지도 크기로 입력받은 값이 올바르지 않다면 예외를 발생시킨다`(invalidWidth: String) {
-        assertThatThrownBy { MapSize.of(invalidWidth, "1") }
+    fun `지도 크기로 입력받은 값이 올바르지 않다면 예외를 발생시킨다`(invalidSize: String) {
+        assertThatThrownBy { MapSize.of(invalidSize, invalidSize) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining(MapSize.INVALID_VALUE_ERROR_MESSAGE);
     }
