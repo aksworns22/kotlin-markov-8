@@ -34,4 +34,11 @@ class ReadingMapFeatureTest {
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining(MapSize.INVALID_VALUE_ERROR_MESSAGE);
     }
+
+    @Test
+    fun `지도의 위치 정보를 읽어온다`() {
+        assertThatCode {
+            SimulationMap(MapSize(2, 2), start = Position(0, 0), end = Position(1, 1), current = Position(0, 0))
+        }.doesNotThrowAnyException()
+    }
 }
