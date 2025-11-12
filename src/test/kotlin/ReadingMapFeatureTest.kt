@@ -3,7 +3,9 @@ import org.assertj.core.api.Assertions.assertThatCode
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 
 
@@ -40,7 +42,12 @@ class ReadingMapFeatureTest {
     fun `지도의 위치 정보를 읽어온다`() {
         assertThat(SimulationMap.of(MapSize(2, 2), listOf("s .", ". d")))
             .isEqualTo(
-                SimulationMap(MapSize(2, 2), start = Position(0, 0), end = Position(1, 1), current = Position(0, 0))
+                SimulationMap(
+                    MapSize(2, 2),
+                    start = Position(0, 0),
+                    destination = Position(1, 1),
+                    current = Position(0, 0)
+                )
             )
     }
 
@@ -50,6 +57,31 @@ class ReadingMapFeatureTest {
         assertThatThrownBy {
             val mapSize = MapSize(2, 2)
             SimulationMap.of(mapSize, listOf("s .", invalidMapRow))
+        }.isInstanceOf(IllegalArgumentException::class.java).hasMessage(SimulationMap.INVALID_SIZE_ERROR_MESSAGE)
+    }
+
+    @ParameterizedTest
+    @MethodSource("rawMap")
+    fun `지도가 출발지와 도착지를 포함하지 않는다면 예외를 발생시킨다`(mapSize: MapSize, rawMap: List<String>) {
+        assertThatThrownBy { SimulationMap.of(mapSize, rawMap) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage(SimulationMap.LOCATION_FINDING_ERROR_MESSAGE)
+    }
+
+    companion object {
+        @JvmStatic
+        fun rawMap(): List<Arguments> {
+            return listOf(
+                Arguments.of(
+                    MapSize(2, 2), listOf(". .", ". d")
+                ),
+                Arguments.of(
+                    MapSize(2, 2), listOf(". .", ". s")
+                ),
+                Arguments.of(
+                    MapSize(1, 1), listOf(".")
+                )
+            )
         }
     }
 }
