@@ -1,3 +1,4 @@
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
@@ -37,8 +38,18 @@ class ReadingMapFeatureTest {
 
     @Test
     fun `지도의 위치 정보를 읽어온다`() {
-        assertThatCode {
-            SimulationMap(MapSize(2, 2), start = Position(0, 0), end = Position(1, 1), current = Position(0, 0))
-        }.doesNotThrowAnyException()
+        assertThat(SimulationMap.of(MapSize(2, 2), listOf("s .", ". d")))
+            .isEqualTo(
+                SimulationMap(MapSize(2, 2), start = Position(0, 0), end = Position(1, 1), current = Position(0, 0))
+            )
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = [". . d", "d", ""])
+    fun `실제 지도 데이터가 선언된 크기와 일치하는지 않으면 예외를 발생시킨다`(invalidMapRow: String) {
+        assertThatThrownBy {
+            val mapSize = MapSize(2, 2)
+            SimulationMap.of(mapSize, listOf("s .", invalidMapRow))
+        }
     }
 }
