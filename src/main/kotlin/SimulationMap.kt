@@ -12,6 +12,7 @@ data class SimulationMap(
 ) {
     companion object {
         const val INVALID_SIZE_ERROR_MESSAGE = "선언된 크기와 실제 지도의 크기다 일치하지 않습니다"
+        const val LOCATION_FINDING_ERROR_MESSAGE = "위치를 찾을 수 없습니다"
         fun of(mapSize: MapSize, rawMap: List<String>): SimulationMap {
             require(rawMap.size == mapSize.height) { INVALID_SIZE_ERROR_MESSAGE }
             val map = rawMap.map { it.split(" ") }
@@ -28,7 +29,7 @@ data class SimulationMap(
                 val x = map[y].indexOfFirst { it == location.symbol }
                 if (x >= 0) return Position(x, y)
             }
-            throw IllegalArgumentException("위치(${location.symbol})를 찾을 수 없습니다")
+            throw IllegalArgumentException(LOCATION_FINDING_ERROR_MESSAGE)
         }
     }
 }
