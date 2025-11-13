@@ -1,3 +1,5 @@
+package markov.input
+
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path

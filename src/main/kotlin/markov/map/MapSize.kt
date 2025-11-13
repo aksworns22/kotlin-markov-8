@@ -1,3 +1,5 @@
+package markov.map
+
 data class MapSize(val width: Int, val height: Int) {
     init {
         require(width > 0 && height > 0) { INVALID_VALUE_ERROR_MESSAGE }

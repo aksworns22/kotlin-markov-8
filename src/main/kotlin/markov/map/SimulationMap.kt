@@ -1,3 +1,8 @@
+package markov.map
+
+import markov.output.Message
+import markov.output.MessageOutput
+import markov.output.MessageType
 import java.io.InputStream
 
 data class Position(val x: Int, val y: Int)
@@ -7,7 +12,7 @@ enum class Location(val symbol: String) {
 
     companion object {
         fun isValidSymbol(locationSymbol: String): Boolean {
-            return Location.entries.any { it.symbol == locationSymbol }
+            return entries.any { it.symbol == locationSymbol }
         }
     }
 }
