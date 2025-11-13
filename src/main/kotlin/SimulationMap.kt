@@ -22,8 +22,7 @@ data class SimulationMap(
             }
             val start = getPosition(mapSize, map, Location.START)
             val destination = getPosition(mapSize, map, Location.DESTINATION)
-            require(countPosition(map, Location.START) == 1) { TOO_MANY_LOCATION_ERROR }
-            require(countPosition(map, Location.DESTINATION) == 1) { TOO_MANY_LOCATION_ERROR }
+            requireSingleStartAndDestination(map)
             return SimulationMap(size = mapSize, start = start, destination = destination, current = start)
         }
 
@@ -35,10 +34,16 @@ data class SimulationMap(
             throw IllegalArgumentException(LOCATION_FINDING_ERROR_MESSAGE)
         }
 
+        private fun requireSingleStartAndDestination(map: List<List<String>>) {
+            require(countPosition(map, Location.START) == 1) { TOO_MANY_LOCATION_ERROR }
+            require(countPosition(map, Location.DESTINATION) == 1) { TOO_MANY_LOCATION_ERROR }
+        }
+
         private fun countPosition(map: List<List<String>>, location: Location): Int {
             return map.sumOf { row ->
                 row.count { it == location.symbol }
             }
         }
+
     }
 }
