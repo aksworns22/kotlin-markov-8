@@ -5,18 +5,6 @@ import markov.output.MessageOutput
 import markov.output.MessageType
 import java.io.InputStream
 
-data class Position(val x: Int, val y: Int)
-
-enum class Location(val symbol: String) {
-    START("s"), DESTINATION("d"), WAYPOINT(".");
-
-    companion object {
-        fun isValidSymbol(locationSymbol: String): Boolean {
-            return entries.any { it.symbol == locationSymbol }
-        }
-    }
-}
-
 data class SimulationMap(
     val size: MapSize,
     val start: Position,
