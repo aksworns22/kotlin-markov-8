@@ -76,6 +76,14 @@ class ReadingMapFeatureTest {
             .hasMessage(SimulationMap.TOO_MANY_LOCATION_ERROR)
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["@ . d", "1 . d", ". \n d"])
+    fun `지도에 유효하지 않은 값이 포함되었다면 예외를 발생시킨다`(rowMap: String) {
+        assertThatThrownBy { SimulationMap.of(MapSize(3, 2), listOf("s . .", rowMap))}
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage(SimulationMap.INVALID_LOCATION_ERROR_MESSAGE)
+    }
+
     companion object {
         @JvmStatic
         fun rawMap(): List<Arguments> {
