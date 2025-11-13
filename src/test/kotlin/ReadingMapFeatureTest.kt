@@ -2,11 +2,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.nio.file.Path
+import kotlin.io.path.writeText
 
 
 class ReadingMapFeatureTest {
@@ -82,6 +85,16 @@ class ReadingMapFeatureTest {
         assertThatThrownBy { SimulationMap.of(MapSize(3, 2), listOf("s . .", rowMap))}
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage(SimulationMap.INVALID_LOCATION_ERROR_MESSAGE)
+    }
+
+    @Test
+    fun `출발지와 도착지가 안내된 올바른 지도 파일로부터 필요한 데이터를 읽어온다`(@TempDir tempDirectory: Path) {
+        val mapFile = tempDirectory.resolve(Data.MAP.path)
+        val rawMapSize = "3x2"
+        val rawMap = listOf("s . .", ". d .")
+        mapFile.writeText("$rawMapSize\n${rawMap[0]}\n${rawMap[1]}")
+        assertThat(SimulationMap.initializeFrom(DataLoader.load(mapFile)))
+            .isEqualTo(SimulationMap.of(MapSize(3, 2), rawMap))
     }
 
     companion object {
