@@ -68,6 +68,14 @@ class ReadingMapFeatureTest {
             .hasMessage(SimulationMap.LOCATION_FINDING_ERROR_MESSAGE)
     }
 
+    @ParameterizedTest
+    @MethodSource("duplicatedLocationRawMap")
+    fun `지도가 출발지와 도착지가 각 두개 이상 포함하면 예외를 발생시킨다`(mapSize: MapSize, rawMap: List<String>) {
+        assertThatThrownBy { SimulationMap.of(mapSize, rawMap) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage(SimulationMap.TOO_MANY_LOCATION_ERROR)
+    }
+
     companion object {
         @JvmStatic
         fun rawMap(): List<Arguments> {
@@ -80,6 +88,21 @@ class ReadingMapFeatureTest {
                 ),
                 Arguments.of(
                     MapSize(1, 1), listOf(".")
+                )
+            )
+        }
+
+        @JvmStatic
+        fun duplicatedLocationRawMap(): List<Arguments> {
+            return listOf(
+                Arguments.of(
+                    MapSize(2, 2), listOf("s .", "s d")
+                ),
+                Arguments.of(
+                    MapSize(2, 2), listOf("s d", ". d")
+                ),
+                Arguments.of(
+                    MapSize(3, 2), listOf("s . d", "s . d")
                 )
             )
         }
