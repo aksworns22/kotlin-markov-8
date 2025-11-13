@@ -43,7 +43,7 @@ class ReadingMapFeatureTest {
 
     @Test
     fun `지도의 위치 정보를 읽어온다`() {
-        assertThat(SimulationMap.of(MapSize(2, 2), listOf("s .", ". d")))
+        assertThat(SimulationMap.of(MapSize(2, 2), listOf("s .", ". d"), ConsoleOutput))
             .isEqualTo(
                 SimulationMap(
                     MapSize(2, 2),
@@ -59,14 +59,14 @@ class ReadingMapFeatureTest {
     fun `실제 지도 데이터가 선언된 크기와 일치하는지 않으면 예외를 발생시킨다`(invalidMapRow: String) {
         assertThatThrownBy {
             val mapSize = MapSize(2, 2)
-            SimulationMap.of(mapSize, listOf("s .", invalidMapRow))
+            SimulationMap.of(mapSize, listOf("s .", invalidMapRow), ConsoleOutput)
         }.isInstanceOf(IllegalArgumentException::class.java).hasMessage(SimulationMap.INVALID_SIZE_ERROR_MESSAGE)
     }
 
     @ParameterizedTest
     @MethodSource("rawMap")
     fun `지도가 출발지와 도착지를 포함하지 않는다면 예외를 발생시킨다`(mapSize: MapSize, rawMap: List<String>) {
-        assertThatThrownBy { SimulationMap.of(mapSize, rawMap) }
+        assertThatThrownBy { SimulationMap.of(mapSize, rawMap, ConsoleOutput) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage(SimulationMap.LOCATION_FINDING_ERROR_MESSAGE)
     }
@@ -74,7 +74,7 @@ class ReadingMapFeatureTest {
     @ParameterizedTest
     @MethodSource("duplicatedLocationRawMap")
     fun `지도가 출발지와 도착지가 각 두개 이상 포함하면 예외를 발생시킨다`(mapSize: MapSize, rawMap: List<String>) {
-        assertThatThrownBy { SimulationMap.of(mapSize, rawMap) }
+        assertThatThrownBy { SimulationMap.of(mapSize, rawMap, ConsoleOutput) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage(SimulationMap.TOO_MANY_LOCATION_ERROR)
     }
@@ -82,7 +82,7 @@ class ReadingMapFeatureTest {
     @ParameterizedTest
     @ValueSource(strings = ["@ . d", "1 . d", ". \n d"])
     fun `지도에 유효하지 않은 값이 포함되었다면 예외를 발생시킨다`(rowMap: String) {
-        assertThatThrownBy { SimulationMap.of(MapSize(3, 2), listOf("s . .", rowMap))}
+        assertThatThrownBy { SimulationMap.of(MapSize(3, 2), listOf("s . .", rowMap), ConsoleOutput)}
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage(SimulationMap.INVALID_LOCATION_ERROR_MESSAGE)
     }
@@ -93,8 +93,8 @@ class ReadingMapFeatureTest {
         val rawMapSize = "3x2"
         val rawMap = listOf("s . .", ". d .")
         mapFile.writeText("$rawMapSize\n${rawMap[0]}\n${rawMap[1]}")
-        assertThat(SimulationMap.initializeFrom(DataLoader.load(mapFile)))
-            .isEqualTo(SimulationMap.of(MapSize(3, 2), rawMap))
+        assertThat(SimulationMap.initializeFrom(DataLoader.load(mapFile), ConsoleOutput))
+            .isEqualTo(SimulationMap.of(MapSize(3, 2), rawMap, ConsoleOutput))
     }
 
     companion object {
