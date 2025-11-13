@@ -35,7 +35,7 @@ class ReadingMapFeatureTest {
     fun `지도 크기로 입력받은 값이 올바르지 않다면 예외를 발생시킨다`(invalidSize: String) {
         assertThatThrownBy { MapSize.of(invalidSize, invalidSize) }
             .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining(MapSize.INVALID_VALUE_ERROR_MESSAGE);
+            .hasMessageContaining(MapSize.INVALID_VALUE_ERROR_MESSAGE)
     }
 
     @Test
