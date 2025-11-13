@@ -13,6 +13,7 @@ data class SimulationMap(
     companion object {
         const val INVALID_SIZE_ERROR_MESSAGE = "선언된 크기와 실제 지도의 크기다 일치하지 않습니다"
         const val LOCATION_FINDING_ERROR_MESSAGE = "위치를 찾을 수 없습니다"
+        const val TOO_MANY_LOCATION_ERROR = "출발지 혹은 도착지는 여러개 존재할 수 없습니다"
         fun of(mapSize: MapSize, rawMap: List<String>): SimulationMap {
             require(rawMap.size == mapSize.height) { INVALID_SIZE_ERROR_MESSAGE }
             val map = rawMap.map { it.split(" ") }
@@ -21,6 +22,8 @@ data class SimulationMap(
             }
             val start = getPosition(mapSize, map, Location.START)
             val destination = getPosition(mapSize, map, Location.DESTINATION)
+            require(countPosition(map, Location.START) == 1) { TOO_MANY_LOCATION_ERROR }
+            require(countPosition(map, Location.DESTINATION) == 1) { TOO_MANY_LOCATION_ERROR }
             return SimulationMap(size = mapSize, start = start, destination = destination, current = start)
         }
 
@@ -30,6 +33,12 @@ data class SimulationMap(
                 if (x >= 0) return Position(x, y)
             }
             throw IllegalArgumentException(LOCATION_FINDING_ERROR_MESSAGE)
+        }
+
+        private fun countPosition(map: List<List<String>>, location: Location): Int {
+            return map.sumOf { row ->
+                row.count { it == location.symbol }
+            }
         }
     }
 }
