@@ -55,6 +55,27 @@ class SimulationTest {
             .isEqualTo(true)
     }
 
+    @Test
+    fun `목적지에 도착하면 시뮬레이션을 종료한다`() {
+        val map = SimulationMap.of(MapSize(2, 1), listOf("s d"), ConsoleOutput)
+        assertThat(
+            Simulation(
+                map, SimulationTime(0), SimulationTime(3), Moving(
+                    mapOf(
+                        Position(0, 0) to Action(
+                            mapOf(
+                                ActionType.UP to Probability.NO,
+                                ActionType.DOWN to Probability.NO,
+                                ActionType.LEFT to Probability.NO,
+                                ActionType.RIGHT to Probability(start = 1, end = 100)
+                            )
+                        )
+                    )
+                )
+            ).next(100).isEnd
+        ).isEqualTo(true)
+    }
+
     companion object {
         @JvmStatic
         fun nextPosition(): List<Arguments> {
