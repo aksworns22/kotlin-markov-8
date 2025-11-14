@@ -9,7 +9,7 @@ data class Simulation(
     val moving: Moving
 ) {
     val isEnd = current.time >= limit.time
-    fun next(probability: Double): Simulation {
+    fun next(probability: Int): Simulation {
         val nextMap = map.next(moving.nextPosition(map.current, probability))
         return Simulation(nextMap, SimulationTime(current.time + 1), limit, moving)
     }

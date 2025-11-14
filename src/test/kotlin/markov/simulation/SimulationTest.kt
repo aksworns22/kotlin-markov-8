@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource
 class SimulationTest {
     @ParameterizedTest
     @MethodSource("nextPosition")
-    fun `확률에 따라 위치를 이동한다`(probability: Double, nextPosition: Position) {
+    fun `확률에 따라 위치를 이동한다`(probability: Int, nextPosition: Position) {
         val map = SimulationMap(
             size = MapSize(3, 3),
             start = Position(0, 0),
@@ -27,10 +27,10 @@ class SimulationTest {
             mapOf(
                 Position(1, 1) to Action(
                     mapOf(
-                        ActionType.UP to 0.25,
-                        ActionType.DOWN to 0.25,
-                        ActionType.LEFT to 0.25,
-                        ActionType.RIGHT to 0.25
+                        ActionType.UP to Probability(start = 1, end = 25),
+                        ActionType.DOWN to Probability(start = 26, end = 50),
+                        ActionType.LEFT to Probability(start = 51, end = 75),
+                        ActionType.RIGHT to Probability(start = 76, end = 100)
                     )
                 )
             )
@@ -59,12 +59,12 @@ class SimulationTest {
         @JvmStatic
         fun nextPosition(): List<Arguments> {
             return listOf(
-                Arguments.of(0.0, Position(1, 1).next(ActionType.UP)),
-                Arguments.of(0.2, Position(1, 1).next(ActionType.UP)),
-                Arguments.of(0.45, Position(1, 1).next(ActionType.DOWN)),
-                Arguments.of(0.74, Position(1, 1).next(ActionType.LEFT)),
-                Arguments.of(0.95, Position(1, 1).next(ActionType.RIGHT)),
-                Arguments.of(0.99, Position(1, 1).next(ActionType.RIGHT)),
+                Arguments.of(1, Position(1, 1).next(ActionType.UP)),
+                Arguments.of(25, Position(1, 1).next(ActionType.UP)),
+                Arguments.of(26, Position(1, 1).next(ActionType.DOWN)),
+                Arguments.of(51, Position(1, 1).next(ActionType.LEFT)),
+                Arguments.of(76, Position(1, 1).next(ActionType.RIGHT)),
+                Arguments.of(100, Position(1, 1).next(ActionType.RIGHT)),
             )
         }
     }

@@ -1,13 +1,19 @@
 package markov.simulation
 
+data class Probability(val start: Int, val end: Int) {
+    val range = start..end
+
+    companion object {
+        val NO = Probability(1, 0)
+    }
+}
+
 @JvmInline
-value class Action(val probabilities: Map<ActionType, Double>) {
-    fun chooseAction(probability: Double): ActionType {
-        var probabilitySum = 0.0
+value class Action(val probabilities: Map<ActionType, Probability>) {
+    fun chooseAction(probability: Int): ActionType {
         for (action in ActionType.entries) {
             val actionProbability = probabilities[action] ?: throw IllegalStateException("$action 이 정의되지 않았습니다")
-            probabilitySum += actionProbability
-            if (probability < probabilitySum) {
+            if (probability in actionProbability.range) {
                 return action
             }
         }
