@@ -48,6 +48,13 @@ class SimulationTest {
         )
     }
 
+    @Test
+    fun `제한 시간을 초과하면 시뮬레이션을 종료한다`() {
+        val map = SimulationMap.of(MapSize(2, 1), listOf("s d"), ConsoleOutput)
+        assertThat(Simulation(map, SimulationTime(1), SimulationTime(1), Moving(mapOf())).isEnd)
+            .isEqualTo(true)
+    }
+
     companion object {
         @JvmStatic
         fun nextPosition(): List<Arguments> {
