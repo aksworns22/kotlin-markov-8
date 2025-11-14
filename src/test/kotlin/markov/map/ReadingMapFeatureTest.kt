@@ -1,10 +1,7 @@
-package markov
+package markov.map
 
 import markov.input.Data
 import markov.input.DataLoader
-import markov.map.MapSize
-import markov.map.Position
-import markov.map.SimulationMap
 import markov.output.ConsoleOutput
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test

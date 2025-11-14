@@ -1,8 +1,7 @@
-package markov
+package markov.output
 
 import markov.map.MapSize
 import markov.map.SimulationMap
-import markov.output.ConsoleOutput
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -32,7 +31,7 @@ class OutputTest {
 
     @Test
     fun `지도를 성공적으로 읽어 처리한다면 성공 메시지를 출력한다`() {
-        SimulationMap.of(MapSize(2, 2), listOf("s .", ". d"), ConsoleOutput)
+        SimulationMap.Companion.of(MapSize(2, 2), listOf("s .", ". d"), ConsoleOutput)
         Assertions.assertThat(output()).contains("[SUCCESS]")
     }
 }
