@@ -89,4 +89,32 @@ class OutputTest {
                 )
             )
     }
+
+
+    @Test
+    fun `최종 목적지에 시간 내에 도달하는 못하는 경우 진행 상황을 콘솔에 출력한다`() {
+        val map = SimulationMap.of(MapSize(3, 1), listOf("s . d"), ConsoleOutput)
+        val limitTime = SimulationTime(1)
+        val moving = Moving(
+            mapOf(
+                Position(0, 0) to Action(
+                    mapOf(
+                        ActionType.UP to Probability.NO,
+                        ActionType.DOWN to Probability.NO,
+                        ActionType.LEFT to Probability.NO,
+                        ActionType.RIGHT to Probability(1, 100),
+                    )
+                )
+            )
+        )
+        Simulation.startFrom(map, limitTime, moving, OnlyOneGenerator, ConsoleOutput)
+        assertThat(output())
+            .contains(
+                listOf(
+                    "[시간: 0] x: 0, y: 0",
+                    "[시간: 1] x: 1, y: 0",
+                    "[최종 결과] 목적지에 시간 내에 도착하지 못했습니다"
+                )
+            )
+    }
 }
