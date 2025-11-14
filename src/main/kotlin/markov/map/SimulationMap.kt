@@ -11,6 +11,10 @@ data class SimulationMap(
     val destination: Position,
     val current: Position
 ) {
+    fun next(position: Position): SimulationMap {
+        return SimulationMap(size, start, destination, position)
+    }
+
     companion object {
         const val INVALID_SIZE_ERROR_MESSAGE = "선언된 크기와 실제 지도의 크기다 일치하지 않습니다"
         const val LOCATION_FINDING_ERROR_MESSAGE = "위치를 찾을 수 없습니다"
