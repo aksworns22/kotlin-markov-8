@@ -82,6 +82,32 @@ class ManualTest {
             )
     }
 
+    @ParameterizedTest
+    @MethodSource("rawMoving")
+    fun `만들 수 있는 최선의 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
+        val simulationMap =
+            SimulationMap(MapSize(2, 2), start = Position(0, 0), destination = Position(1, 1), current = Position(0, 0))
+        val distanceMap = DistanceMap.from(simulationMap)
+        val gamma = 0.9
+        var manual1 = Manual.from(destination = Position(1, 1), Moving(rawMoving))
+        var manual2 = manual1.improve(simulationMap, distanceMap, Moving(rawMoving))
+        var manual3 = manual2.improve(simulationMap, distanceMap, Moving(rawMoving))
+        var beforeGap = manual1.maxGapWith(manual2)
+        var afterGap = manual2.maxGapWith(manual3)
+        assertThat(afterGap <= gamma * beforeGap)
+        while (afterGap > 1e-3) {
+            manual1 = manual2
+            manual2 = manual3
+            manual3 = manual3.improve(simulationMap, distanceMap, Moving(rawMoving), gamma)
+            beforeGap = manual1.maxGapWith(manual2)
+            afterGap = manual2.maxGapWith(manual3)
+            assertThat(afterGap <= gamma * beforeGap)
+        }
+        beforeGap = manual1.maxGapWith(manual2)
+        afterGap = manual2.maxGapWith(manual3)
+        assertThat(afterGap <= gamma * beforeGap)
+    }
+
 
     companion object {
         @JvmStatic
