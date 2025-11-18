@@ -45,11 +45,11 @@ class ManualTest {
     @ParameterizedTest
     @MethodSource("rawMoving")
     fun `위치 별 확률을 바탕으로 초기 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
-        val initalMunual = Manual.from(
+        val initialManual = Manual.from(
             destination = Position(1, 1),
             Moving(rawMoving)
         )
-        assertThat(initalMunual)
+        assertThat(initialManual)
             .isEqualTo(
                 Manual(
                     mapOf(
