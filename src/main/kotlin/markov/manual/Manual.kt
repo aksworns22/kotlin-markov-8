@@ -3,10 +3,10 @@ package markov.manual
 import markov.map.Position
 import markov.simulation.Moving
 
-data class Cost(val value: Int) {
+data class Cost(val value: Double) {
     companion object {
-        val INITIAL = Cost(100)
-        val DESTINATION = Cost(0)
+        val INITIAL = Cost(100.0)
+        val DESTINATION = Cost(0.0)
     }
 }
 
