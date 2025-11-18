@@ -3,6 +3,8 @@ package markov.manual
 import markov.map.Position
 import markov.map.SimulationMap
 import markov.simulation.Moving
+import kotlin.math.abs
+import kotlin.math.max
 
 data class Cost(val value: Double) {
     companion object {
@@ -35,6 +37,14 @@ data class Manual(val costMap: Map<Position, Cost>) {
             nextCostMap[position] = Cost(baseCost + discountFactor * cost)
         }
         return Manual(nextCostMap)
+    }
+
+    fun maxGapWith(manual: Manual): Double {
+        var maxGap = Double.MIN_VALUE
+        for (position in this.costMap.keys) {
+            maxGap = max(maxGap, abs(this.costMap[position]!!.value - manual.costMap[position]!!.value))
+        }
+        return maxGap
     }
 
     companion object {
