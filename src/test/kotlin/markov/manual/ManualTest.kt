@@ -73,14 +73,15 @@ class ManualTest {
             .isEqualTo(
                 Manual(
                     mapOf(
-                        Position(0, 0) to Cost(102.0),
-                        Position(1, 0) to Cost(31.0),
-                        Position(0, 1) to Cost(91.0),
+                        Position(0, 0) to Cost(92.0),
+                        Position(1, 0) to Cost(28.0),
+                        Position(0, 1) to Cost(82.0),
                         Position(1, 1) to Cost.DESTINATION
                     )
                 )
             )
     }
+
 
     companion object {
         @JvmStatic
