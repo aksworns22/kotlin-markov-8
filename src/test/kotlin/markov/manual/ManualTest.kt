@@ -4,6 +4,10 @@ import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
 import markov.output.ConsoleOutput
+import markov.simulation.Action
+import markov.simulation.ActionType
+import markov.simulation.Moving
+import markov.simulation.Probability
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -33,6 +37,60 @@ class ManualTest {
                         Position(2, 0) to Distance(2),
                         Position(2, 1) to Distance(1),
                         Position(2, 2) to Distance(2)
+                    )
+                )
+            )
+    }
+
+    @Test
+    fun `위치 별 확률을 바탕으로 초기 메뉴얼을 만든다`() {
+        val initalMunual = Manual.from(
+            destination = Position(1, 1),
+            Moving(
+                mapOf(
+                    Position(0, 0) to Action(
+                        mapOf(
+                            ActionType.UP to Probability(1, 10),
+                            ActionType.DOWN to Probability(11, 20),
+                            ActionType.LEFT to Probability(21, 30),
+                            ActionType.RIGHT to Probability(31, 100)
+                        )
+                    ),
+                    Position(0, 1) to Action(
+                        mapOf(
+                            ActionType.UP to Probability(1, 10),
+                            ActionType.DOWN to Probability(11, 80),
+                            ActionType.LEFT to Probability(81, 90),
+                            ActionType.RIGHT to Probability(91, 100)
+                        )
+                    ),
+                    Position(1, 0) to Action(
+                        mapOf(
+                            ActionType.UP to Probability(1, 10),
+                            ActionType.DOWN to Probability(11, 80),
+                            ActionType.LEFT to Probability(81, 90),
+                            ActionType.RIGHT to Probability(91, 100)
+                        )
+                    ),
+                    Position(1, 1) to Action(
+                        mapOf(
+                            ActionType.UP to Probability(1, 25),
+                            ActionType.DOWN to Probability(26, 50),
+                            ActionType.LEFT to Probability(51, 75),
+                            ActionType.RIGHT to Probability(76, 100)
+                        )
+                    )
+                )
+            )
+        )
+        assertThat(initalMunual)
+            .isEqualTo(
+                Manual(
+                    mapOf(
+                        Position(0, 0) to Cost.INITIAL,
+                        Position(0, 1) to Cost.INITIAL,
+                        Position(1, 0) to Cost.INITIAL,
+                        Position(1, 1) to Cost.DESTINATION
                     )
                 )
             )
