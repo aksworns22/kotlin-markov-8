@@ -42,46 +42,12 @@ class ManualTest {
             )
     }
 
-    @Test
-    fun `위치 별 확률을 바탕으로 초기 메뉴얼을 만든다`() {
+    @ParameterizedTest
+    @MethodSource("rawMoving")
+    fun `위치 별 확률을 바탕으로 초기 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
         val initalMunual = Manual.from(
             destination = Position(1, 1),
-            Moving(
-                mapOf(
-                    Position(0, 0) to Action(
-                        mapOf(
-                            ActionType.UP to Probability(1, 10),
-                            ActionType.DOWN to Probability(11, 20),
-                            ActionType.LEFT to Probability(21, 30),
-                            ActionType.RIGHT to Probability(31, 100)
-                        )
-                    ),
-                    Position(0, 1) to Action(
-                        mapOf(
-                            ActionType.UP to Probability(1, 10),
-                            ActionType.DOWN to Probability(11, 80),
-                            ActionType.LEFT to Probability(81, 90),
-                            ActionType.RIGHT to Probability(91, 100)
-                        )
-                    ),
-                    Position(1, 0) to Action(
-                        mapOf(
-                            ActionType.UP to Probability(1, 10),
-                            ActionType.DOWN to Probability(11, 80),
-                            ActionType.LEFT to Probability(81, 90),
-                            ActionType.RIGHT to Probability(91, 100)
-                        )
-                    ),
-                    Position(1, 1) to Action(
-                        mapOf(
-                            ActionType.UP to Probability(1, 25),
-                            ActionType.DOWN to Probability(26, 50),
-                            ActionType.LEFT to Probability(51, 75),
-                            ActionType.RIGHT to Probability(76, 100)
-                        )
-                    )
-                )
-            )
+            Moving(rawMoving)
         )
         assertThat(initalMunual)
             .isEqualTo(
@@ -90,6 +56,26 @@ class ManualTest {
                         Position(0, 0) to Cost.INITIAL,
                         Position(0, 1) to Cost.INITIAL,
                         Position(1, 0) to Cost.INITIAL,
+                        Position(1, 1) to Cost.DESTINATION
+                    )
+                )
+            )
+    }
+
+    @ParameterizedTest
+    @MethodSource("rawMoving")
+    fun `이전보다 나아진 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
+        val simulationMap =
+            SimulationMap(MapSize(2, 2), start = Position(0, 0), destination = Position(1, 1), current = Position(0, 0))
+        val distanceMap = DistanceMap.from(simulationMap)
+        val initialManual = Manual.from(destination = Position(1, 1), Moving(rawMoving))
+        assertThat(initialManual.improve(simulationMap, distanceMap, Moving(rawMoving)))
+            .isEqualTo(
+                Manual(
+                    mapOf(
+                        Position(0, 0) to Cost(102.0),
+                        Position(1, 0) to Cost(31.0),
+                        Position(0, 1) to Cost(91.0),
                         Position(1, 1) to Cost.DESTINATION
                     )
                 )
@@ -107,6 +93,48 @@ class ManualTest {
                 Arguments.of(Position(2, 0), Position(0, 0), 2),
                 Arguments.of(Position(0, 2), Position(0, 0), 2),
                 Arguments.of(Position(2, 2), Position(0, 0), 4),
+            )
+        }
+
+        @JvmStatic
+        fun rawMoving(): List<Arguments> {
+            return listOf(
+                Arguments.of(
+                    mapOf(
+                        Position(0, 0) to Action(
+                            mapOf(
+                                ActionType.UP to Probability(1, 10),
+                                ActionType.DOWN to Probability(11, 20),
+                                ActionType.LEFT to Probability(21, 30),
+                                ActionType.RIGHT to Probability(31, 100)
+                            )
+                        ),
+                        Position(0, 1) to Action(
+                            mapOf(
+                                ActionType.UP to Probability(1, 10),
+                                ActionType.DOWN to Probability(11, 80),
+                                ActionType.LEFT to Probability(81, 90),
+                                ActionType.RIGHT to Probability(91, 100)
+                            )
+                        ),
+                        Position(1, 0) to Action(
+                            mapOf(
+                                ActionType.UP to Probability(1, 10),
+                                ActionType.DOWN to Probability(11, 80),
+                                ActionType.LEFT to Probability(81, 90),
+                                ActionType.RIGHT to Probability(91, 100)
+                            )
+                        ),
+                        Position(1, 1) to Action(
+                            mapOf(
+                                ActionType.UP to Probability(1, 25),
+                                ActionType.DOWN to Probability(26, 50),
+                                ActionType.LEFT to Probability(51, 75),
+                                ActionType.RIGHT to Probability(76, 100)
+                            )
+                        )
+                    )
+                )
             )
         }
     }
