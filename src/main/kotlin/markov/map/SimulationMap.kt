@@ -12,9 +12,14 @@ data class SimulationMap(
     val current: Position
 ) {
     fun next(position: Position): SimulationMap {
+        val nextPosition = nextPosition(position)
+        return SimulationMap(size, start, destination, nextPosition)
+    }
+
+    fun nextPosition(position: Position): Position {
         val nextX = position.x.coerceIn(0, size.width - 1)
         val nextY = position.y.coerceIn(0, size.height - 1)
-        return SimulationMap(size, start, destination, Position(nextX, nextY))
+        return Position(nextX, nextY)
     }
 
     companion object {
@@ -70,6 +75,5 @@ data class SimulationMap(
                 }
             }
         }
-
     }
 }
