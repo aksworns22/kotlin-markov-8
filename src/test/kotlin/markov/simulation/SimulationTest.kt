@@ -76,6 +76,18 @@ class SimulationTest {
         ).isEqualTo(SimulationState.SUCCESS)
     }
 
+    @ParameterizedTest
+    @MethodSource("stayConditions")
+    fun `이동이 불가능한 방향으로의 입력은 제자리에 멈춘다`(movingValue: Map<Position, Action>) {
+        val position = Position(0, 0)
+        val map = SimulationMap(MapSize(1, 1), position, position, position)
+        assertThat(
+            Simulation(
+                map, SimulationTime(0), SimulationTime(1), Moving(movingValue)
+            ).next(100).map.current
+        ).isEqualTo(position)
+    }
+
     companion object {
         @JvmStatic
         fun nextPosition(): List<Arguments> {
@@ -86,6 +98,60 @@ class SimulationTest {
                 Arguments.of(51, Position(1, 1).next(ActionType.LEFT)),
                 Arguments.of(76, Position(1, 1).next(ActionType.RIGHT)),
                 Arguments.of(100, Position(1, 1).next(ActionType.RIGHT)),
+            )
+        }
+
+        @JvmStatic
+        fun stayConditions(): List<Arguments> {
+            return listOf(
+                Arguments.of(
+                    mapOf(
+                        Position(0, 0) to Action(
+                            mapOf(
+                                ActionType.UP to Probability(start = 1, end = 100),
+                                ActionType.DOWN to Probability.NO,
+                                ActionType.LEFT to Probability.NO,
+                                ActionType.RIGHT to Probability.NO
+                            )
+                        )
+                    )
+                ),
+                Arguments.of(
+                    mapOf(
+                        Position(0, 0) to Action(
+                            mapOf(
+                                ActionType.UP to Probability.NO,
+                                ActionType.DOWN to Probability(start = 1, end = 100),
+                                ActionType.LEFT to Probability.NO,
+                                ActionType.RIGHT to Probability.NO
+                            )
+                        )
+                    )
+                ),
+                Arguments.of(
+                    mapOf(
+                        Position(0, 0) to Action(
+                            mapOf(
+                                ActionType.UP to Probability.NO,
+                                ActionType.DOWN to Probability.NO,
+                                ActionType.LEFT to Probability(start = 1, end = 100),
+                                ActionType.RIGHT to Probability.NO
+                            )
+                        )
+                    )
+                ),
+                Arguments.of(
+                    mapOf(
+                        Position(0, 0) to Action(
+                            mapOf(
+                                ActionType.UP to Probability.NO,
+                                ActionType.DOWN to Probability.NO,
+                                ActionType.LEFT to Probability.NO,
+                                ActionType.RIGHT to Probability(start = 1, end = 100)
+                            )
+                        )
+                    )
+                ),
             )
         }
     }
