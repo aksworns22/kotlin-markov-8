@@ -80,11 +80,7 @@ class OutputTest {
         )
         val simulationMaps = SimulationIterator.startFrom(map, limitTime, movement, OnlyOneGenerator)
         (0..limitTime.time).forEach { currentTime ->
-            ConsoleOutput.println(
-                SimulationResult.of(
-                    Simulation(simulationMaps[currentTime], SimulationTime(currentTime), limitTime)
-                )
-            )
+            ConsoleOutput.println(Simulation(simulationMaps[currentTime], SimulationTime(currentTime), limitTime))
         }
         assertThat(output())
             .contains(
@@ -116,11 +112,7 @@ class OutputTest {
         )
         val simulationMaps = SimulationIterator.startFrom(map, limitTime, movement, OnlyOneGenerator)
         (0..limitTime.time).forEach { currentTime ->
-            ConsoleOutput.println(
-                SimulationResult.of(
-                    Simulation(simulationMaps[currentTime], SimulationTime(currentTime), limitTime)
-                )
-            )
+            ConsoleOutput.println(Simulation(simulationMaps[currentTime], SimulationTime(currentTime), limitTime))
         }
         assertThat(output())
             .contains(

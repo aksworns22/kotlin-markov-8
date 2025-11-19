@@ -1,5 +1,6 @@
 package markov.output
 
+import markov.simulation.Simulation
 import markov.simulation.SimulationState
 
 object ConsoleOutput : MessageOutput, SimulationOutput {
@@ -7,15 +8,15 @@ object ConsoleOutput : MessageOutput, SimulationOutput {
         println(message.full)
     }
 
-    override fun println(simulationResult: SimulationResult) {
-        val position = simulationResult.currentPosition
-        println("[시간: ${simulationResult.currentTime}] x: ${position.x}, y: ${position.y}")
+    override fun println(simulation: Simulation) {
+        val position = simulation.map.current
+        println("[시간: ${simulation.current}] x: ${position.x}, y: ${position.y}")
 
-        if (simulationResult.state == SimulationState.SUCCESS) {
+        if (simulation.state == SimulationState.SUCCESS) {
             println("[최종 결과] 목적지에 시간 내에 도착했습니다")
         }
 
-        if (simulationResult.state == SimulationState.FAIL) {
+        if (simulation.state == SimulationState.FAIL) {
             println("[최종 결과] 목적지에 시간 내에 도착하지 못했습니다")
         }
 
