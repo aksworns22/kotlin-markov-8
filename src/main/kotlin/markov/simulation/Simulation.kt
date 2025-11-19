@@ -1,8 +1,6 @@
 package markov.simulation
 
 import markov.map.SimulationMap
-import markov.output.SimulationOutput
-import markov.output.SimulationResult
 import markov.random.RandomGenerator
 
 data class Simulation(
