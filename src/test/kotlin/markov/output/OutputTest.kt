@@ -9,8 +9,9 @@ import markov.simulation.ActionType
 import markov.simulation.Movement
 import markov.simulation.Probability
 import markov.simulation.Simulation
-import markov.simulation.SimulationIterator
+import markov.simulation.SimulationGenerator
 import markov.simulation.SimulationTime
+import markov.simulation.Simulations
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
@@ -78,10 +79,8 @@ class OutputTest {
                 )
             )
         )
-        val simulationMaps = SimulationIterator.startFrom(map, limitTime, movement, OnlyOneGenerator)
-        (0..limitTime.time).forEach { currentTime ->
-            ConsoleOutput.println(Simulation(simulationMaps[currentTime], SimulationTime(currentTime), limitTime))
-        }
+        val simulations = Simulations.of(SimulationGenerator.startFrom(map, limitTime, movement, OnlyOneGenerator))
+        ConsoleOutput.println(simulations)
         assertThat(output())
             .contains(
                 listOf(
@@ -110,10 +109,8 @@ class OutputTest {
                 )
             )
         )
-        val simulationMaps = SimulationIterator.startFrom(map, limitTime, movement, OnlyOneGenerator)
-        (0..limitTime.time).forEach { currentTime ->
-            ConsoleOutput.println(Simulation(simulationMaps[currentTime], SimulationTime(currentTime), limitTime))
-        }
+        val simulations = Simulations.of(SimulationGenerator.startFrom(map, limitTime, movement, OnlyOneGenerator))
+        ConsoleOutput.println(simulations)
         assertThat(output())
             .contains(
                 listOf(
