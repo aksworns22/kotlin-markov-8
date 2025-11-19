@@ -4,7 +4,6 @@ import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
 import markov.output.ConsoleOutput
-import markov.random.OnlyOneGenerator
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
