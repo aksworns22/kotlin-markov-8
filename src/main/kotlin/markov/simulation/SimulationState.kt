@@ -1,17 +1,14 @@
 package markov.simulation
 
-enum class SimulationState {
-    RUNNING, FAIL, SUCCESS;
+enum class SimulationState(val priority: Int) {
+    RUNNING(1), FAIL(2), SUCCESS(3);
 
     companion object {
         fun of(simulation: Simulation): SimulationState {
-            if (simulation.map.current == simulation.map.destination) {
-                return SUCCESS
-            }
-            if (simulation.current.time >= simulation.limit.time) {
-                return FAIL
-            }
-            return RUNNING
+            val results = mutableListOf<SimulationState>()
+            if (simulation.map.current == simulation.map.destination) results.add(SUCCESS)
+            if (simulation.current.time >= simulation.limit.time) results.add(FAIL)
+            return results.maxByOrNull { it.priority } ?: RUNNING
         }
     }
 }
