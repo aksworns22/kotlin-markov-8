@@ -2,7 +2,7 @@ package markov.output
 
 import markov.simulation.Simulations
 
-object ConsoleOutput : MessageOutput, SimulationOutput {
+object Console : MessageOutput, SimulationOutput {
     override fun println(message: Message) {
         println(message.full)
     }

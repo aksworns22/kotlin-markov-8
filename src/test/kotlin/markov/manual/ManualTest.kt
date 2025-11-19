@@ -3,7 +3,6 @@ package markov.manual
 import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
-import markov.output.ConsoleOutput
 import markov.simulation.Action
 import markov.simulation.ActionType
 import markov.simulation.Movement

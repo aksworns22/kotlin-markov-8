@@ -43,7 +43,7 @@ class OutputTest {
 
     @Test
     fun `지도를 성공적으로 읽어 처리한다면 성공 메시지를 출력한다`() {
-        SimulationMapController(ConsoleOutput).readMap(MapSize(2, 2), listOf("s .", ". d"))
+        SimulationMapController(Console).readMap(MapSize(2, 2), listOf("s .", ". d"))
         Assertions.assertThat(output()).contains("[SUCCESS]")
     }
 
@@ -80,7 +80,7 @@ class OutputTest {
             )
         )
         val simulations = Simulations.of(SimulationGenerator.startFrom(map, limitTime, movement, OnlyOneGenerator))
-        ConsoleOutput.println(simulations)
+        Console.println(simulations)
         assertThat(output())
             .contains(
                 listOf(
@@ -110,7 +110,7 @@ class OutputTest {
             )
         )
         val simulations = Simulations.of(SimulationGenerator.startFrom(map, limitTime, movement, OnlyOneGenerator))
-        ConsoleOutput.println(simulations)
+        Console.println(simulations)
         assertThat(output())
             .contains(
                 listOf(

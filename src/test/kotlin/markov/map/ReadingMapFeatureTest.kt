@@ -2,7 +2,6 @@ package markov.map
 
 import markov.input.Data
 import markov.input.DataLoader
-import markov.output.ConsoleOutput
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
