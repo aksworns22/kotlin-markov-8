@@ -1,0 +1,12 @@
+package markov.input
+
+import org.assertj.core.api.Assertions.assertThatCode
+import org.junit.jupiter.api.Test
+
+class ReadingProbabilityTest {
+    @Test
+    fun `위치 별 확률 정보 파일을 읽어온다`() {
+        assertThatCode { DataLoader.load(Data.PROBABILITY).available() }
+            .doesNotThrowAnyException()
+    }
+}
