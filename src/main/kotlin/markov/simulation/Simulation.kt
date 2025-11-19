@@ -11,7 +11,7 @@ data class Simulation(
     val limit: SimulationTime,
     val moving: Moving
 ) {
-    val state = SimulationState.of(this)
+    val state = SimulationState.of(map.current, map.destination, current, limit)
     fun next(probability: Int): Simulation {
         val nextMap = map.next(moving.nextPosition(map.current, probability))
         return Simulation(nextMap, SimulationTime(current.time + 1), limit, moving)
