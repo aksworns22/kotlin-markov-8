@@ -17,6 +17,6 @@ value class Action(val probabilities: Map<ActionType, Probability>) {
                 return action
             }
         }
-        throw IllegalArgumentException("확률 값은 0이상 1미만의 실수여야만 합니다")
+        throw IllegalArgumentException("확률 값은 1이상 100미만의 정수여야만 합니다")
     }
 }
