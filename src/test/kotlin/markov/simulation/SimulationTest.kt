@@ -4,9 +4,9 @@ import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
 import markov.output.ConsoleOutput
+import markov.random.OnlyOneGenerator
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -21,8 +21,6 @@ class SimulationTest {
             destination = Position(2, 2),
             current = Position(1, 1)
         )
-        val timeLimit = SimulationTime(2)
-        val currentTime = SimulationTime(0)
         val moving = Moving(
             mapOf(
                 Position(1, 1) to Action(
@@ -35,45 +33,21 @@ class SimulationTest {
                 )
             )
         )
-        val nextSimulation = Simulation(map, currentTime, timeLimit, moving).next(probability)
-        assertAll(
-            {
-                assertThat(nextSimulation.map.current)
-                    .isEqualTo(nextPosition)
-            },
-            {
-                assertThat(nextSimulation.current)
-                    .isEqualTo(SimulationTime(currentTime.time + 1))
-            }
-        )
+        val position = map.nextPosition(moving.nextPosition(map.current, probability))
+        assertThat(position).isEqualTo(nextPosition)
     }
 
     @Test
     fun `제한 시간을 초과하면 시뮬레이션을 종료한다`() {
         val map = SimulationMap.of(MapSize(2, 1), listOf("s d"), ConsoleOutput)
-        assertThat(Simulation(map, SimulationTime(1), SimulationTime(1), Moving(mapOf())).state)
+        assertThat(Simulation(map, SimulationTime(1), SimulationTime(1)).state)
             .isEqualTo(SimulationState.FAIL)
     }
 
     @Test
     fun `목적지에 도착하면 시뮬레이션을 종료한다`() {
-        val map = SimulationMap.of(MapSize(2, 1), listOf("s d"), ConsoleOutput)
-        assertThat(
-            Simulation(
-                map, SimulationTime(0), SimulationTime(3), Moving(
-                    mapOf(
-                        Position(0, 0) to Action(
-                            mapOf(
-                                ActionType.UP to Probability.NO,
-                                ActionType.DOWN to Probability.NO,
-                                ActionType.LEFT to Probability.NO,
-                                ActionType.RIGHT to Probability(start = 1, end = 100)
-                            )
-                        )
-                    )
-                )
-            ).next(100).state
-        ).isEqualTo(SimulationState.SUCCESS)
+        val map = SimulationMap(MapSize(2, 1), Position(0, 0), Position(1, 0), Position(1, 0))
+        assertThat(Simulation(map, SimulationTime(0), SimulationTime(3)).state).isEqualTo(SimulationState.SUCCESS)
     }
 
     @ParameterizedTest
@@ -81,11 +55,7 @@ class SimulationTest {
     fun `이동이 불가능한 방향으로의 입력은 제자리에 멈춘다`(movingValue: Map<Position, Action>) {
         val position = Position(0, 0)
         val map = SimulationMap(MapSize(1, 1), position, position, position)
-        assertThat(
-            Simulation(
-                map, SimulationTime(0), SimulationTime(1), Moving(movingValue)
-            ).next(100).map.current
-        ).isEqualTo(position)
+        assertThat(map.nextPosition(Moving(movingValue).nextPosition(map.current, 100))).isEqualTo(position)
     }
 
     companion object {
