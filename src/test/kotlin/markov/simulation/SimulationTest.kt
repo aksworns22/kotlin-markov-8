@@ -20,7 +20,7 @@ class SimulationTest {
             destination = Position(2, 2),
             current = Position(1, 1)
         )
-        val moving = Moving(
+        val movement = Movement(
             mapOf(
                 Position(1, 1) to Action(
                     mapOf(
@@ -32,7 +32,7 @@ class SimulationTest {
                 )
             )
         )
-        val position = map.nextPosition(moving.nextPosition(map.current, probability))
+        val position = map.nextPosition(movement.nextPosition(map.current, probability))
         assertThat(position).isEqualTo(nextPosition)
     }
 
@@ -54,7 +54,7 @@ class SimulationTest {
     fun `이동이 불가능한 방향으로의 입력은 제자리에 멈춘다`(movingValue: Map<Position, Action>) {
         val position = Position(0, 0)
         val map = SimulationMap(MapSize(1, 1), position, position, position)
-        assertThat(map.nextPosition(Moving(movingValue).nextPosition(map.current, 100))).isEqualTo(position)
+        assertThat(map.nextPosition(Movement(movingValue).nextPosition(map.current, 100))).isEqualTo(position)
     }
 
     companion object {

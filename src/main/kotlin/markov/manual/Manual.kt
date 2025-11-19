@@ -2,7 +2,7 @@ package markov.manual
 
 import markov.map.Position
 import markov.map.SimulationMap
-import markov.simulation.Moving
+import markov.simulation.Movement
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -17,7 +17,7 @@ data class Manual(val costMap: Map<Position, Cost>) {
     fun improve(
         simulationMap: SimulationMap,
         distanceMap: DistanceMap,
-        moving: Moving,
+        movement: Movement,
         discountFactor: Double = DEFAULT_DISCOUNT_FACTOR
     ): Manual {
         val nextCostMap = mutableMapOf<Position, Cost>()
@@ -28,7 +28,7 @@ data class Manual(val costMap: Map<Position, Cost>) {
             }
             val baseCost: Double = distanceMap.values[position]!!.value.toDouble()
             var cost = 0.0
-            for (actions in moving.probabilities[position]!!.probabilities) {
+            for (actions in movement.probabilities[position]!!.probabilities) {
                 val action = actions.key
                 val probability = actions.value
                 val probabilityForCost = (probability.end - probability.start + 1) / 100.0
@@ -49,9 +49,9 @@ data class Manual(val costMap: Map<Position, Cost>) {
 
     companion object {
         const val DEFAULT_DISCOUNT_FACTOR = 0.9
-        fun from(destination: Position, moving: Moving): Manual {
+        fun from(destination: Position, movement: Movement): Manual {
             val initialCosts = mutableMapOf<Position, Cost>()
-            moving.probabilities.keys.forEach { position ->
+            movement.probabilities.keys.forEach { position ->
                 initialCosts[position] = Cost.INITIAL
             }
             initialCosts[destination] = Cost.DESTINATION

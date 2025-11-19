@@ -6,7 +6,7 @@ import markov.map.SimulationMap
 import markov.output.ConsoleOutput
 import markov.simulation.Action
 import markov.simulation.ActionType
-import markov.simulation.Moving
+import markov.simulation.Movement
 import markov.simulation.Probability
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -47,7 +47,7 @@ class ManualTest {
     fun `위치 별 확률을 바탕으로 초기 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
         val initialManual = Manual.from(
             destination = Position(1, 1),
-            Moving(rawMoving)
+            Movement(rawMoving)
         )
         assertThat(initialManual)
             .isEqualTo(
@@ -68,8 +68,8 @@ class ManualTest {
         val simulationMap =
             SimulationMap(MapSize(2, 2), start = Position(0, 0), destination = Position(1, 1), current = Position(0, 0))
         val distanceMap = DistanceMap.from(simulationMap)
-        val initialManual = Manual.from(destination = Position(1, 1), Moving(rawMoving))
-        assertThat(initialManual.improve(simulationMap, distanceMap, Moving(rawMoving)))
+        val initialManual = Manual.from(destination = Position(1, 1), Movement(rawMoving))
+        assertThat(initialManual.improve(simulationMap, distanceMap, Movement(rawMoving)))
             .isEqualTo(
                 Manual(
                     mapOf(
@@ -89,16 +89,16 @@ class ManualTest {
             SimulationMap(MapSize(2, 2), start = Position(0, 0), destination = Position(1, 1), current = Position(0, 0))
         val distanceMap = DistanceMap.from(simulationMap)
         val gamma = 0.9
-        var manual1 = Manual.from(destination = Position(1, 1), Moving(rawMoving))
-        var manual2 = manual1.improve(simulationMap, distanceMap, Moving(rawMoving))
-        var manual3 = manual2.improve(simulationMap, distanceMap, Moving(rawMoving))
+        var manual1 = Manual.from(destination = Position(1, 1), Movement(rawMoving))
+        var manual2 = manual1.improve(simulationMap, distanceMap, Movement(rawMoving))
+        var manual3 = manual2.improve(simulationMap, distanceMap, Movement(rawMoving))
         var beforeGap = manual1.maxGapWith(manual2)
         var afterGap = manual2.maxGapWith(manual3)
         assertThat(afterGap <= gamma * beforeGap)
         while (afterGap > 1e-3) {
             manual1 = manual2
             manual2 = manual3
-            manual3 = manual3.improve(simulationMap, distanceMap, Moving(rawMoving), gamma)
+            manual3 = manual3.improve(simulationMap, distanceMap, Movement(rawMoving), gamma)
             beforeGap = manual1.maxGapWith(manual2)
             afterGap = manual2.maxGapWith(manual3)
             assertThat(afterGap <= gamma * beforeGap)

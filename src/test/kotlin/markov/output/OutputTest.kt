@@ -6,7 +6,7 @@ import markov.map.SimulationMap
 import markov.random.OnlyOneGenerator
 import markov.simulation.Action
 import markov.simulation.ActionType
-import markov.simulation.Moving
+import markov.simulation.Movement
 import markov.simulation.Probability
 import markov.simulation.Simulation
 import markov.simulation.SimulationIterator
@@ -50,7 +50,7 @@ class OutputTest {
     fun `최종 목적지에 시간 내에 도달하는 경우 진행 상황을 콘솔에 출력한다`() {
         val map = SimulationMap.of(MapSize(3, 1), listOf("s . d"), ConsoleOutput)
         val limitTime = SimulationTime(5)
-        val moving = Moving(
+        val movement = Movement(
             mapOf(
                 Position(0, 0) to Action(
                     mapOf(
@@ -78,7 +78,7 @@ class OutputTest {
                 )
             )
         )
-        val simulationMaps = SimulationIterator.startFrom(map, limitTime, moving, OnlyOneGenerator)
+        val simulationMaps = SimulationIterator.startFrom(map, limitTime, movement, OnlyOneGenerator)
         (0..limitTime.time).forEach { currentTime ->
             ConsoleOutput.println(
                 SimulationResult.of(
@@ -102,7 +102,7 @@ class OutputTest {
     fun `최종 목적지에 시간 내에 도달하는 못하는 경우 진행 상황을 콘솔에 출력한다`() {
         val map = SimulationMap.of(MapSize(3, 1), listOf("s . d"), ConsoleOutput)
         val limitTime = SimulationTime(1)
-        val moving = Moving(
+        val movement = Movement(
             mapOf(
                 Position(0, 0) to Action(
                     mapOf(
@@ -114,7 +114,7 @@ class OutputTest {
                 )
             )
         )
-        val simulationMaps = SimulationIterator.startFrom(map, limitTime, moving, OnlyOneGenerator)
+        val simulationMaps = SimulationIterator.startFrom(map, limitTime, movement, OnlyOneGenerator)
         (0..limitTime.time).forEach { currentTime ->
             ConsoleOutput.println(
                 SimulationResult.of(
