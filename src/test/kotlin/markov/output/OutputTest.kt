@@ -77,7 +77,10 @@ class OutputTest {
                 )
             )
         )
-        Simulation.startFrom(map, limitTime, moving, OnlyOneGenerator, ConsoleOutput)
+        val simulations = Simulation.startFrom(map, limitTime, moving, OnlyOneGenerator)
+        simulations.forEach { simulation ->
+            ConsoleOutput.println(SimulationResult.of(simulation))
+        }
         assertThat(output())
             .contains(
                 listOf(
@@ -106,7 +109,11 @@ class OutputTest {
                 )
             )
         )
-        Simulation.startFrom(map, limitTime, moving, OnlyOneGenerator, ConsoleOutput)
+        val simulations = Simulation.startFrom(map, limitTime, moving, OnlyOneGenerator)
+        simulations.forEach { simulation ->
+            println(SimulationResult.of(simulation))
+            ConsoleOutput.println(SimulationResult.of(simulation))
+        }
         assertThat(output())
             .contains(
                 listOf(

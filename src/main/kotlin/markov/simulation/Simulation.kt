@@ -22,17 +22,16 @@ data class Simulation(
             map: SimulationMap,
             limit: SimulationTime,
             moving: Moving,
-            randomGenerator: RandomGenerator,
-            output: SimulationOutput
-        ): Simulation {
+            randomGenerator: RandomGenerator
+        ): List<Simulation> {
             val startTime = SimulationTime(0)
             var simulation = Simulation(map, startTime, limit, moving)
+            val simulationLog = mutableListOf(simulation)
             while (simulation.state == SimulationState.RUNNING) {
-                output.println(SimulationResult(simulation.current, simulation.map.current, simulation.state))
                 simulation = simulation.next(randomGenerator.generate())
+                simulationLog.add(simulation)
             }
-            output.println(SimulationResult(simulation.current, simulation.map.current, simulation.state))
-            return simulation
+            return simulationLog
         }
     }
 }
