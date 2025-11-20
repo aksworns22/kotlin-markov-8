@@ -27,6 +27,7 @@ class SimulationMapController(val output: MessageOutput) {
 
     private fun getMapSize(rawMapDeclaration: String): MapSize {
         val mapDeclaration = rawMapDeclaration.split("x")
+        require(mapDeclaration.size == 2) { MapSize.INVALID_FORMAT_ERROR_MESSAGE }
         return MapSize.of(mapDeclaration[0], mapDeclaration[1])
     }
 

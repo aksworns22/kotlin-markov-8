@@ -7,6 +7,7 @@ data class MapSize(val width: Int, val height: Int) {
 
     companion object {
         const val INVALID_VALUE_ERROR_MESSAGE = "올바르지 않은 지도 크기입니다"
+        const val INVALID_FORMAT_ERROR_MESSAGE = "올바르지 않은 형식입니다"
         fun of(rawWidth: String, rawHeight: String): MapSize {
             val width = rawWidth.toIntOrNull() ?: throw IllegalArgumentException(INVALID_VALUE_ERROR_MESSAGE)
             val height = rawHeight.toIntOrNull() ?: throw IllegalArgumentException(INVALID_VALUE_ERROR_MESSAGE)
