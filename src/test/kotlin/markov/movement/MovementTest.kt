@@ -71,4 +71,18 @@ class MovementTest {
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage(Movement.MAP_SIZE_COMPATIBLE_ERROR_MESSAGE)
     }
+
+    @Test
+    fun `모든 위치에 대한 정보가 존재하는 지 않는다면 예외를 발생시킨다`() {
+        assertThatThrownBy {
+            Movement.of(
+                listOf(
+                    "0,0:10,10,10,70",
+                    "0,1:10,10,10,70",
+                    "1,1:10,10,10,70"
+                )
+            )
+        }.isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage(Movement.MISSING_POSITION_ERROR_MESSAGE)
+    }
 }
