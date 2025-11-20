@@ -23,16 +23,25 @@ class SimulationTest {
             destination = Position(2, 2),
             current = Position(1, 1)
         )
+        val action = Action(
+            mapOf(
+                ActionType.UP to Probability(start = 1, end = 25),
+                ActionType.DOWN to Probability(start = 26, end = 50),
+                ActionType.LEFT to Probability(start = 51, end = 75),
+                ActionType.RIGHT to Probability(start = 76, end = 100)
+            )
+        )
         val movement = Movement(
             mapOf(
-                Position(1, 1) to Action(
-                    mapOf(
-                        ActionType.UP to Probability(start = 1, end = 25),
-                        ActionType.DOWN to Probability(start = 26, end = 50),
-                        ActionType.LEFT to Probability(start = 51, end = 75),
-                        ActionType.RIGHT to Probability(start = 76, end = 100)
-                    )
-                )
+                Position(0, 0) to action,
+                Position(0, 1) to action,
+                Position(0, 2) to action,
+                Position(1, 0) to action,
+                Position(1, 1) to action,
+                Position(1, 2) to action,
+                Position(2, 0) to action,
+                Position(2, 1) to action,
+                Position(2, 2) to action,
             )
         )
         val position = map.nextPosition(movement.nextPosition(map.current, probability))
