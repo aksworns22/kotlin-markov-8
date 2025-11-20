@@ -4,7 +4,6 @@ data class Probability(val start: Int, val end: Int) {
     val range = start..end
 
     companion object {
-        const val INVALID_PROBABILITY = "올바르지 않은 확률입니다"
         val NO = Probability(1, 0)
     }
 }
@@ -31,13 +30,16 @@ value class Action(val probabilities: Map<ActionType, Probability>) {
     companion object {
         const val TOTAL_PROBABILITY = 100
         const val INVALID_PROBABILITY_ERROR_MESSAGE = "올바른 형태의 이동 확률이 아닙니다"
+        const val NEGATIVE_PROBABILITY_ERROR_MESSAGE = "확률은 음수일 수 없습니다"
         fun of(rawActions: String): Action {
             val splitActions = rawActions.split(",")
             val probabilities = mutableMapOf<ActionType, Probability>()
             var start = 1
             for (i in 0..<splitActions.size) {
-                probabilities[ActionType.entries[i]] = Probability(start, start + splitActions[i].toInt() - 1)
-                start += splitActions[i].toInt()
+                val rawProbability = splitActions[i].toInt()
+                require(rawProbability >= 0) { NEGATIVE_PROBABILITY_ERROR_MESSAGE }
+                probabilities[ActionType.entries[i]] = Probability(start, start + rawProbability - 1)
+                start += rawProbability
             }
             return Action(probabilities)
         }
