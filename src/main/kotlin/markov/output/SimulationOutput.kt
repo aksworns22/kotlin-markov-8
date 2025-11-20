@@ -1,7 +1,7 @@
 package markov.output
 
-import markov.simulation.Simulations
+import markov.simulation.Simulation
 
 interface SimulationOutput {
-    fun println(simulations: Simulations)
+    fun println(simulation: Simulation)
 }

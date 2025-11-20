@@ -7,6 +7,8 @@ data class SimulationTime(val time: Int) {
         return time.toString()
     }
 
+    fun next(): SimulationTime = SimulationTime(time + 1)
+
     companion object {
         fun from(input: InteractiveInput): SimulationTime {
             return SimulationTime(input.readIntegerNumber())

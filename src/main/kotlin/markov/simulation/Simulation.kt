@@ -1,5 +1,6 @@
 package markov.simulation
 
+import markov.map.Position
 import markov.map.SimulationMap
 
 data class Simulation(
@@ -11,4 +12,6 @@ data class Simulation(
     val isEnd = (state == SimulationState.FAIL) || (state == SimulationState.SUCCESS)
     val isSuccess = state == SimulationState.SUCCESS
     val isFail = state == SimulationState.FAIL
+
+    fun next(position: Position): Simulation = Simulation(map.next(position), current.next(), limit)
 }
