@@ -2,7 +2,7 @@ package markov.manual
 
 import markov.map.Position
 import markov.map.SimulationMap
-import markov.simulation.Movement
+import markov.movement.Movement
 import kotlin.math.abs
 import kotlin.math.max
 

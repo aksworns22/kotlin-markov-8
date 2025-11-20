@@ -1,6 +1,7 @@
 package markov.simulation
 
 import markov.map.SimulationMap
+import markov.movement.Movement
 import markov.output.SimulationOutput
 import markov.random.RandomGenerator
 

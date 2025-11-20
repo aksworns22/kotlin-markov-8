@@ -3,6 +3,10 @@ package markov.simulation
 import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
+import markov.movement.Action
+import markov.movement.ActionType
+import markov.movement.Movement
+import markov.movement.Probability
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest

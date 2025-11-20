@@ -1,4 +1,6 @@
-package markov.simulation
+package markov.movement
+
+import markov.movement.ActionType
 
 data class Probability(val start: Int, val end: Int) {
     val range = start..end
@@ -18,5 +20,19 @@ value class Action(val probabilities: Map<ActionType, Probability>) {
             }
         }
         throw IllegalArgumentException("확률 값은 1이상 100미만의 정수여야만 합니다")
+    }
+
+    companion object {
+        fun of(rawActions: String): Action {
+            val splitActions = rawActions.split(",")
+            val probabilities = mutableMapOf<ActionType, Probability>()
+            require(splitActions.size == 4) { "올바르지 못한 형식입니다" }
+            var start = 1
+            for (i in 0..<splitActions.size) {
+                probabilities[ActionType.entries[i]] = Probability(start, start + splitActions[i].toInt() - 1)
+                start += splitActions[i].toInt()
+            }
+            return Action(probabilities)
+        }
     }
 }

@@ -5,10 +5,10 @@ import markov.map.Position
 import markov.map.SimulationMap
 import markov.map.SimulationMapController
 import markov.random.OnlyOneGenerator
-import markov.simulation.Action
-import markov.simulation.ActionType
-import markov.simulation.Movement
-import markov.simulation.Probability
+import markov.movement.Action
+import markov.movement.ActionType
+import markov.movement.Movement
+import markov.movement.Probability
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
 
