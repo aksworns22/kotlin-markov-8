@@ -3,16 +3,35 @@ package markov.map
 import markov.output.Message
 import markov.output.MessageOutput
 import markov.output.MessageType
+import java.io.InputStream
+
+object MapReader {
+    fun read(inputStream: InputStream): List<String> {
+        val rawMap = inputStream.bufferedReader().readLines()
+        require(rawMap.size >= 2) { "유효하지 않은 형식입니다" }
+        return rawMap
+    }
+}
 
 class SimulationMapController(val output: MessageOutput) {
-    fun readMap(size: MapSize, rawMap: List<String>): SimulationMap? {
+    fun readMap(rawMap: List<String>): SimulationMap? {
         try {
-            val simulationMap = SimulationMap.of(size, rawMap)
+            val simulationMap = getSimulationMap(rawMap[0], rawMap.subList(1, rawMap.size))
             output.println(Message(MessageType.SUCCESS, Message.MAP_CREATION_SUCCESS))
             return simulationMap
         } catch (err: IllegalArgumentException) {
             output.println(Message(MessageType.ERROR, err.message ?: Message.UNEXPECTED_ERROR))
         }
         return null
+    }
+
+    private fun getMapSize(rawMapDeclaration: String): MapSize {
+        val mapDeclaration = rawMapDeclaration.split("x")
+        return MapSize.of(mapDeclaration[0], mapDeclaration[1])
+    }
+
+    private fun getSimulationMap(mapDeclaration: String, rawMap: List<String>): SimulationMap {
+        val mapSize = getMapSize(mapDeclaration)
+        return SimulationMap.of(mapSize, rawMap)
     }
 }

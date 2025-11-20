@@ -43,13 +43,13 @@ class OutputTest {
 
     @Test
     fun `지도를 성공적으로 읽어 처리한다면 성공 메시지를 출력한다`() {
-        SimulationMapController(Console).readMap(MapSize(2, 2), listOf("s .", ". d"))
+        SimulationMapController(Console).readMap(listOf("2x2", "s .", ". d"))
         Assertions.assertThat(output()).contains("[SUCCESS]")
     }
 
     @Test
     fun `최종 목적지에 시간 내에 도달하는 경우 진행 상황을 콘솔에 출력한다`() {
-        val map = SimulationMap.of(MapSize(3, 1), listOf("s . d"))
+        val map = SimulationMap(MapSize(3, 1), Position(0, 0), Position(2, 0), Position(0, 0))
         val limitTime = SimulationTime(5)
         val movement = Movement(
             mapOf(
@@ -95,7 +95,7 @@ class OutputTest {
 
     @Test
     fun `최종 목적지에 시간 내에 도달하는 못하는 경우 진행 상황을 콘솔에 출력한다`() {
-        val map = SimulationMap.of(MapSize(3, 1), listOf("s . d"))
+        val map = SimulationMap(MapSize(3, 1), Position(0, 0), Position(2, 0), Position(0, 0))
         val limitTime = SimulationTime(1)
         val movement = Movement(
             mapOf(

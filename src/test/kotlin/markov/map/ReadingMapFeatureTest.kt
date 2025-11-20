@@ -2,6 +2,7 @@ package markov.map
 
 import markov.input.Data
 import markov.input.DataLoader
+import markov.output.Console
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -44,7 +45,7 @@ class ReadingMapFeatureTest {
 
     @Test
     fun `지도의 위치 정보를 읽어온다`() {
-        Assertions.assertThat(SimulationMap.of(MapSize(2, 2), listOf("s .", ". d")))
+        Assertions.assertThat(SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0)))
             .isEqualTo(
                 SimulationMap(
                     MapSize(2, 2),
@@ -61,7 +62,8 @@ class ReadingMapFeatureTest {
         Assertions.assertThatThrownBy {
             val mapSize = MapSize(2, 2)
             SimulationMap.of(mapSize, listOf("s .", invalidMapRow))
-        }.isInstanceOf(IllegalArgumentException::class.java).hasMessage(SimulationMap.INVALID_SIZE_ERROR_MESSAGE)
+        }.isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage(SimulationMap.INVALID_SIZE_ERROR_MESSAGE)
     }
 
     @ParameterizedTest
@@ -94,7 +96,7 @@ class ReadingMapFeatureTest {
         val rawMapSize = "3x2"
         val rawMap = listOf("s . .", ". d .")
         mapFile.writeText("$rawMapSize\n${rawMap[0]}\n${rawMap[1]}")
-        Assertions.assertThat(SimulationMap.initializeFrom(DataLoader.load(mapFile)))
+        Assertions.assertThat(SimulationMapController(Console).readMap(MapReader.read(DataLoader.load(mapFile))))
             .isEqualTo(SimulationMap.of(MapSize(3, 2), rawMap))
     }
 

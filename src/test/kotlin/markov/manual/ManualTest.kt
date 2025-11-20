@@ -23,7 +23,7 @@ class ManualTest {
 
     @Test
     fun `모든 위치에 대해 거리를 계산한다`() {
-        assertThat(DistanceMap.from(SimulationMap.of(MapSize(3, 3), listOf("s . .", ". d .", ". . ."))))
+        assertThat(DistanceMap.from(SimulationMap(MapSize(3, 3), Position(0, 0), Position(1, 1), Position(0, 0))))
             .isEqualTo(
                 DistanceMap(
                     mapOf(

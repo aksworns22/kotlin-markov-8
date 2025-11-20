@@ -1,7 +1,5 @@
 package markov.map
 
-import java.io.InputStream
-
 data class SimulationMap(
     val size: MapSize,
     val start: Position,
@@ -35,14 +33,6 @@ data class SimulationMap(
             requireSingleStartAndDestination(map)
             requireOnlyValidLocation(map)
             return SimulationMap(size = mapSize, start = start, destination = destination, current = start)
-        }
-
-        fun initializeFrom(mapStream: InputStream): SimulationMap {
-            val map = mapStream.bufferedReader().readLines()
-            require(map.size >= 2) { "유효하지 않은 형식입니다" }
-            val mapDeclaration = map[0].split("x")
-            val mapSize = MapSize.of(mapDeclaration[0], mapDeclaration[1])
-            return of(mapSize, map.subList(1, map.size))
         }
 
         private fun getPosition(mapSize: MapSize, map: List<List<String>>, location: Location): Position {
