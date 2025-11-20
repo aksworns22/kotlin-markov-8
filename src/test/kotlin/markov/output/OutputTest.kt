@@ -8,6 +8,7 @@ import markov.random.OnlyOneGenerator
 import markov.movement.Action
 import markov.movement.ActionType
 import markov.movement.Movement
+import markov.movement.MovementController
 import markov.movement.Probability
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
@@ -128,6 +129,19 @@ class OutputTest {
     fun `지도를 읽어오는 기능에 문제가 있다면 ERROR로 시작하는 에러 메시지를 출력한다`(rawMap: List<String>) {
         SimulationMapController(Console).readMap(rawMap)
         assertThat(output()).contains("[ERROR]")
+    }
+
+    @Test
+    fun `위치 별 이동 확률을 불러오는데 문제가 없다면 SUCCESS로 시작하는 성공 메시지를 출력한다`() {
+        MovementController(MapSize(2, 2), Console).readMovement(
+            listOf(
+                "0,0:10,10,10,70",
+                "1,0:10,10,10,70",
+                "0,1:10,10,10,70",
+                "1,1:10,10,10,70"
+            )
+        )
+        assertThat(output()).contains("[SUCCESS]")
     }
 
     companion object {
