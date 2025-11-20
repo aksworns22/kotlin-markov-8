@@ -1,7 +1,9 @@
 package markov.movement
 
+import markov.map.MapSize
 import markov.map.Position
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
 class MovementTest {
@@ -53,5 +55,20 @@ class MovementTest {
                 )
             )
         )
+    }
+
+    @Test
+    fun `지도 크기와 동일한 위치 개수가 아니라면 예외를 발생시킨다`() {
+        assertThatThrownBy {
+            Movement.of(
+                listOf(
+                    "0,0:10,10,10,70",
+                    "1,0:10,10,10,70",
+                    "0,1:10,10,10,70",
+                    "1,1:10,10,10,70"
+                )
+            ).validateWith(MapSize(1, 1))
+        }.isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage(Movement.MAP_SIZE_COMPATIBLE_ERROR_MESSAGE)
     }
 }
