@@ -17,6 +17,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.io.PrintStream
@@ -118,5 +121,27 @@ class OutputTest {
                     "[최종 결과] 목적지에 시간 내에 도착하지 못했습니다"
                 )
             )
+    }
+
+    @ParameterizedTest
+    @MethodSource("readingMapWithError")
+    fun `지도를 읽어오는 기능에 문제가 있다면 ERROR로 시작하는 에러 메시지를 출력한다`(rawMap: List<String>) {
+        SimulationMapController(Console).readMap(rawMap)
+        assertThat(output()).contains("[ERROR]")
+    }
+
+    companion object {
+        @JvmStatic
+        fun `readingMapWithError`(): List<Arguments> {
+            return listOf(
+                Arguments.of(listOf("2x1", "s .")),
+                Arguments.of(listOf("2x1", ". d")),
+                Arguments.of(listOf("2x2", ". d")),
+                Arguments.of(listOf("2x2", ". d", "s x")),
+                Arguments.of(listOf("2xn", ". d")),
+                Arguments.of(listOf("1", "s d")),
+                Arguments.of(listOf("2x2", ". d", "s d")),
+            )
+        }
     }
 }
