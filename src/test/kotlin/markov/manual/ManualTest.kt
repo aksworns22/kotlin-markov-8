@@ -107,6 +107,34 @@ class ManualTest {
         assertThat(afterGap <= gamma * beforeGap)
     }
 
+    @Test
+    fun `거리 바탕 행동 메뉴얼을 통해 추천 이동 방향을 계산한다`() {
+        val manual = Manual.from(
+            Position(1, 0), Movement(
+                mapOf(
+                    Position(0, 0) to Action(
+                        mapOf(
+                            ActionType.UP to Probability(1, 25),
+                            ActionType.DOWN to Probability(26, 50),
+                            ActionType.RIGHT to Probability(51, 75),
+                            ActionType.LEFT to Probability(76, 100)
+                        )
+                    ),
+                    Position(1, 0) to Action(
+                        mapOf(
+                            ActionType.UP to Probability(1, 25),
+                            ActionType.DOWN to Probability(26, 50),
+                            ActionType.RIGHT to Probability(51, 75),
+                            ActionType.LEFT to Probability(76, 100)
+                        )
+                    )
+                )
+            )
+        )
+        assertThat(manual.recommendActions.size)
+            .isEqualTo(2)
+    }
+
 
     companion object {
         @JvmStatic
