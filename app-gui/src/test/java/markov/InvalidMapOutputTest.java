@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(Parameterized.class)
 public class InvalidMapOutputTest {
     private FrameFixture window;
@@ -42,6 +44,7 @@ public class InvalidMapOutputTest {
 
     @Test
     public void shouldDisplayMessageWhenMapLoadsFail() {
-
+        String text = window.textBox("messageLog").text();
+        assertThat(text).contains("[ERROR]");
     }
 }
