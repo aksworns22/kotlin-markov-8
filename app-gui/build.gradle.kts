@@ -20,4 +20,5 @@ dependencies {
     testImplementation("org.junit.vintage:junit-vintage-engine:6.1.0-M1")
     implementation("org.assertj:assertj-swing:3.17.1")
     implementation(project(":core"))
+    testImplementation(testFixtures(project(":core")))
 }
