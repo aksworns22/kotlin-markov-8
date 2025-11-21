@@ -14,6 +14,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.27.3")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
     implementation(project(":core"))
+    testImplementation(testFixtures(project(":core")))
 }
 
 tasks.test {
