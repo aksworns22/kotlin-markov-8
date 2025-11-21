@@ -144,6 +144,16 @@ class OutputTest {
         assertThat(output()).contains("[SUCCESS]")
     }
 
+    @ParameterizedTest
+    @MethodSource("readingMovementWithError")
+    fun `위치 별 이동 확률을 읽어오는 기능에 문제가 있다면 ERROR로 시작하는 에러 메시지를 출력한다`(
+        mapSize: MapSize,
+        rawMovement: List<String>
+    ) {
+        MovementController(mapSize, Console).readMovement(rawMovement)
+        assertThat(output()).contains("[ERROR]")
+    }
+
     companion object {
         @JvmStatic
         fun `readingMapWithError`(): List<Arguments> {
@@ -155,6 +165,16 @@ class OutputTest {
                 Arguments.of(listOf("2xn", ". d")),
                 Arguments.of(listOf("1", "s d")),
                 Arguments.of(listOf("2x2", ". d", "s d")),
+            )
+        }
+
+        @JvmStatic
+        fun `readingMovementWithError`(): List<Arguments> {
+            return listOf(
+                Arguments.of(MapSize(2, 1), listOf("0,0:25,25,25,25")),
+                Arguments.of(MapSize(1, 1), listOf("0,0:-25,50,25,25")),
+                Arguments.of(MapSize(1, 1), listOf("0,0:25,50,25,25")),
+                Arguments.of(MapSize(2, 2), listOf("0,0:25,25,25,25", "1,0:25,25,25,25", "1,1:25,25,25,25"))
             )
         }
     }
