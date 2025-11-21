@@ -11,7 +11,6 @@ import markov.movement.Movement
 import markov.movement.MovementController
 import markov.movement.MovementReader
 import markov.movement.Probability
-import Console
 import markov.random.OnlyOneGenerator
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
@@ -209,25 +208,16 @@ class OutputTest {
     companion object {
         @JvmStatic
         fun readingMapWithError(): List<Arguments> {
-            return listOf(
-                Arguments.of(listOf("2x1", "s .")),
-                Arguments.of(listOf("2x1", ". d")),
-                Arguments.of(listOf("2x2", ". d")),
-                Arguments.of(listOf("2x2", ". d", "s x")),
-                Arguments.of(listOf("2xn", ". d")),
-                Arguments.of(listOf("1", "s d")),
-                Arguments.of(listOf("2x2", ". d", "s d")),
-            )
+            return INVALID_RAW_MAPS.map {
+                Arguments.of(it)
+            }
         }
 
         @JvmStatic
         fun readingMovementWithError(): List<Arguments> {
-            return listOf(
-                Arguments.of(MapSize(2, 1), listOf("0,0:25,25,25,25")),
-                Arguments.of(MapSize(1, 1), listOf("0,0:-25,50,25,25")),
-                Arguments.of(MapSize(1, 1), listOf("0,0:25,50,25,25")),
-                Arguments.of(MapSize(2, 2), listOf("0,0:25,25,25,25", "1,0:25,25,25,25", "1,1:25,25,25,25"))
-            )
+            return INVALID_RAW_MOVEMENTS.map {
+                Arguments.of(it[0], it[1])
+            }
         }
     }
 }
