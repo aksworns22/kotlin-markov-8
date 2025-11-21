@@ -2,6 +2,7 @@ package markov.manual
 
 import markov.map.Position
 import markov.map.SimulationMap
+import markov.movement.ActionType
 import markov.movement.Movement
 import kotlin.math.abs
 import kotlin.math.max
@@ -14,6 +15,7 @@ data class Cost(val value: Double) {
 }
 
 data class Manual(val costMap: Map<Position, Cost>) {
+    val recommendActions = findRecommendActions()
     fun improve(
         simulationMap: SimulationMap,
         distanceMap: DistanceMap,
@@ -37,6 +39,18 @@ data class Manual(val costMap: Map<Position, Cost>) {
             nextCostMap[position] = Cost(baseCost + discountFactor * cost)
         }
         return Manual(nextCostMap)
+    }
+
+    private fun findRecommendActions(): Map<Position, ActionType> {
+        val recommendActions = mutableMapOf<Position, ActionType>()
+        for (position in costMap.keys) {
+            val bestAction = ActionType.entries.minBy { action ->
+                val nextPosition = position.next(action)
+                costMap.getOrDefault(nextPosition, Cost.INITIAL).value
+            }
+            recommendActions[position] = bestAction
+        }
+        return recommendActions
     }
 
     fun maxGapWith(manual: Manual): Double {
