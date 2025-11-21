@@ -156,7 +156,7 @@ class OutputTest {
 
     companion object {
         @JvmStatic
-        fun `readingMapWithError`(): List<Arguments> {
+        fun readingMapWithError(): List<Arguments> {
             return listOf(
                 Arguments.of(listOf("2x1", "s .")),
                 Arguments.of(listOf("2x1", ". d")),
@@ -169,7 +169,7 @@ class OutputTest {
         }
 
         @JvmStatic
-        fun `readingMovementWithError`(): List<Arguments> {
+        fun readingMovementWithError(): List<Arguments> {
             return listOf(
                 Arguments.of(MapSize(2, 1), listOf("0,0:25,25,25,25")),
                 Arguments.of(MapSize(1, 1), listOf("0,0:-25,50,25,25")),
