@@ -1,7 +1,10 @@
-package markov.output
-
 import markov.manual.Manual
+import markov.output.ManualOutput
+import markov.output.Message
+import markov.output.MessageOutput
+import markov.output.SimulationOutput
 import markov.simulation.Simulation
+import kotlin.collections.iterator
 
 object Console : MessageOutput, SimulationOutput, ManualOutput {
     override fun println(message: Message) {

@@ -6,3 +6,6 @@
  */
 
 rootProject.name = "kotlin-markov-8"
+
+include("core")
+include("app-cli")

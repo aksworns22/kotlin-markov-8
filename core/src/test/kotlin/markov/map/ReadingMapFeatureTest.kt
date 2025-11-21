@@ -2,7 +2,7 @@ package markov.map
 
 import markov.input.Data
 import markov.input.DataLoader
-import markov.output.Console
+import markov.output.FakeOutput
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -96,7 +96,7 @@ class ReadingMapFeatureTest {
         val rawMapSize = "3x2"
         val rawMap = listOf("s . .", ". d .")
         mapFile.writeText("$rawMapSize\n${rawMap[0]}\n${rawMap[1]}")
-        Assertions.assertThat(SimulationMapController(Console).readMap(MapReader.read(DataLoader.load(mapFile))))
+        Assertions.assertThat(SimulationMapController(FakeOutput).readMap(MapReader.read(DataLoader.load(mapFile))))
             .isEqualTo(SimulationMap.of(MapSize(3, 2), rawMap))
     }
 

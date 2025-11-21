@@ -1,5 +1,3 @@
-package markov.output
-
 import markov.input.Data
 import markov.input.DataLoader
 import markov.manual.ManualController
@@ -7,18 +5,17 @@ import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
 import markov.map.SimulationMapController
-import markov.random.OnlyOneGenerator
 import markov.movement.Action
 import markov.movement.ActionType
 import markov.movement.Movement
 import markov.movement.MovementController
 import markov.movement.MovementReader
 import markov.movement.Probability
+import Console
+import markov.random.OnlyOneGenerator
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
-
 import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -65,25 +62,25 @@ class OutputTest {
             mapOf(
                 Position(0, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.NO,
-                        ActionType.DOWN to Probability.NO,
-                        ActionType.LEFT to Probability.NO,
+                        ActionType.UP to Probability.Companion.NO,
+                        ActionType.DOWN to Probability.Companion.NO,
+                        ActionType.LEFT to Probability.Companion.NO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 ),
                 Position(1, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.NO,
-                        ActionType.DOWN to Probability.NO,
-                        ActionType.LEFT to Probability.NO,
+                        ActionType.UP to Probability.Companion.NO,
+                        ActionType.DOWN to Probability.Companion.NO,
+                        ActionType.LEFT to Probability.Companion.NO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 ),
                 Position(2, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.NO,
-                        ActionType.DOWN to Probability.NO,
-                        ActionType.LEFT to Probability.NO,
+                        ActionType.UP to Probability.Companion.NO,
+                        ActionType.DOWN to Probability.Companion.NO,
+                        ActionType.LEFT to Probability.Companion.NO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 )
@@ -91,7 +88,7 @@ class OutputTest {
         )
         val simulations = SimulationController(Console).startFrom(map, limitTime, movement, OnlyOneGenerator)
         Console.println(simulations)
-        assertThat(output())
+        Assertions.assertThat(output())
             .contains(
                 listOf(
                     "[시간: 0] x: 0, y: 0",
@@ -111,9 +108,9 @@ class OutputTest {
             mapOf(
                 Position(0, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.NO,
-                        ActionType.DOWN to Probability.NO,
-                        ActionType.LEFT to Probability.NO,
+                        ActionType.UP to Probability.Companion.NO,
+                        ActionType.DOWN to Probability.Companion.NO,
+                        ActionType.LEFT to Probability.Companion.NO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 )
@@ -121,7 +118,7 @@ class OutputTest {
         )
         val simulations = SimulationController(Console).startFrom(map, limitTime, movement, OnlyOneGenerator)
         Console.println(simulations)
-        assertThat(output())
+        Assertions.assertThat(output())
             .contains(
                 listOf(
                     "[시간: 0] x: 0, y: 0",
@@ -135,7 +132,7 @@ class OutputTest {
     @MethodSource("readingMapWithError")
     fun `지도를 읽어오는 기능에 문제가 있다면 ERROR로 시작하는 에러 메시지를 출력한다`(rawMap: List<String>) {
         SimulationMapController(Console).readMap(rawMap)
-        assertThat(output()).contains("[ERROR]")
+        Assertions.assertThat(output()).contains("[ERROR]")
     }
 
 
@@ -151,7 +148,7 @@ class OutputTest {
                 Console
             ).readMovement(MovementReader.read(DataLoader.load(Data.PROBABILITY)))
         ManualController(Console).findBestManual(simulationMap, movement!!)
-        assertThat(output())
+        Assertions.assertThat(output())
             .contains(
                 listOf(
                     "Position(x=0, y=0) :",
@@ -172,7 +169,7 @@ class OutputTest {
                 "1,1:10,10,10,70"
             )
         )
-        assertThat(output()).contains("[SUCCESS]")
+        Assertions.assertThat(output()).contains("[SUCCESS]")
     }
 
     @ParameterizedTest
@@ -182,14 +179,14 @@ class OutputTest {
         rawMovement: List<String>
     ) {
         MovementController(mapSize, Console).readMovement(rawMovement)
-        assertThat(output()).contains("[ERROR]")
+        Assertions.assertThat(output()).contains("[ERROR]")
     }
 
     @Test
     fun `계산한 행동 매뉴얼을 출력한다`() {
         val map = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
         ManualController(Console).findBestManual(
-            map, Movement.of(
+            map, Movement.Companion.of(
                 listOf(
                     "0,0:10,10,10,70",
                     "1,0:10,10,10,70",
@@ -198,7 +195,7 @@ class OutputTest {
                 )
             )
         )
-        assertThat(output())
+        Assertions.assertThat(output())
             .contains(
                 listOf(
                     "Position(x=0, y=0) :",

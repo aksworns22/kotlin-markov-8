@@ -1,7 +1,6 @@
-package markov
-
 import markov.input.Data
 import markov.input.DataLoader
+import markov.runApplication
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

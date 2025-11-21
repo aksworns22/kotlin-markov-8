@@ -7,7 +7,7 @@ import markov.movement.Action
 import markov.movement.ActionType
 import markov.movement.Movement
 import markov.movement.Probability
-import markov.output.Console
+import markov.output.FakeOutput
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.Test
@@ -87,7 +87,7 @@ class ManualTest {
     @MethodSource("rawMoving")
     fun `만들 수 있는 최선의 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
         val simulationMap = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
-        assertThatCode { ManualController(Console).findBestManual(simulationMap, Movement(rawMoving)) }
+        assertThatCode { ManualController(FakeOutput).findBestManual(simulationMap, Movement(rawMoving)) }
             .doesNotThrowAnyException()
     }
 

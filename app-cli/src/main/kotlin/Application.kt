@@ -7,7 +7,7 @@ import markov.map.MapReader
 import markov.map.SimulationMapController
 import markov.movement.MovementController
 import markov.movement.MovementReader
-import markov.output.Console
+import Console
 import markov.random.RandomGenerator
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
