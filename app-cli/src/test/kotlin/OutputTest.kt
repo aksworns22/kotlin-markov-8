@@ -1,3 +1,4 @@
+import markov.InvalidFixtures
 import markov.input.Data
 import markov.input.DataLoader
 import markov.manual.ManualController
@@ -208,14 +209,14 @@ class OutputTest {
     companion object {
         @JvmStatic
         fun readingMapWithError(): List<Arguments> {
-            return INVALID_RAW_MAPS.map {
+            return InvalidFixtures.RAW_MAPS.map {
                 Arguments.of(it)
             }
         }
 
         @JvmStatic
         fun readingMovementWithError(): List<Arguments> {
-            return INVALID_RAW_MOVEMENTS.map {
+            return InvalidFixtures.RAW_MOVEMENTS.map {
                 Arguments.of(it[0], it[1])
             }
         }
