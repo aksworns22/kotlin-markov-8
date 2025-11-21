@@ -1,5 +1,8 @@
 package markov.output
 
+import markov.MovementReader
+import markov.input.Data
+import markov.input.DataLoader
 import markov.manual.ManualController
 import markov.map.MapSize
 import markov.map.Position
@@ -16,15 +19,19 @@ import markov.simulation.SimulationTime
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.io.PrintStream
+import java.nio.file.Path
+import kotlin.io.path.writeText
 
 class OutputTest {
     private lateinit var outputStream: OutputStream
@@ -130,6 +137,30 @@ class OutputTest {
     fun `지도를 읽어오는 기능에 문제가 있다면 ERROR로 시작하는 에러 메시지를 출력한다`(rawMap: List<String>) {
         SimulationMapController(Console).readMap(rawMap)
         assertThat(output()).contains("[ERROR]")
+    }
+
+
+    @Test
+    fun `위치 별 이동확률 정보 파일을 읽어 최선의 행동 메뉴얼 결과를 출력한다`(@TempDir tempDirectory: Path) {
+        val simulationMap = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
+        val movementFile = tempDirectory.resolve(Data.PROBABILITY.path)
+        val rawMovement = listOf("0,0:10,10,10,70", "0,1:10,10,10,70", "1,0:10,10,10,70", "1,1:10,10,10,70")
+        movementFile.writeText("${rawMovement[0]}\n${rawMovement[1]}\n${rawMovement[2]}\n${rawMovement[3]}")
+        val movement =
+            MovementController(
+                simulationMap.size,
+                Console
+            ).readMovement(MovementReader.read(DataLoader.load(Data.PROBABILITY)))
+        ManualController(Console).findBestManual(simulationMap, movement!!)
+        assertThat(output())
+            .contains(
+                listOf(
+                    "Position(x=0, y=0) :",
+                    "Position(x=1, y=0) :",
+                    "Position(x=0, y=1) :",
+                    "Position(x=1, y=1) :"
+                )
+            )
     }
 
     @Test
