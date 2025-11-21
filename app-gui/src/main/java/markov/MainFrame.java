@@ -1,8 +1,5 @@
 package markov;
 
-import markov.input.Data;
-import markov.input.DataLoader;
-import markov.map.MapReader;
 import markov.map.SimulationMapController;
 
 import javax.swing.*;
