@@ -1,6 +1,5 @@
 package markov.output
 
-import markov.MovementReader
 import markov.input.Data
 import markov.input.DataLoader
 import markov.manual.ManualController
@@ -13,13 +12,13 @@ import markov.movement.Action
 import markov.movement.ActionType
 import markov.movement.Movement
 import markov.movement.MovementController
+import markov.movement.MovementReader
 import markov.movement.Probability
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
