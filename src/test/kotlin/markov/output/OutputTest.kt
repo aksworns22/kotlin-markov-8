@@ -1,5 +1,6 @@
 package markov.output
 
+import markov.manual.ManualController
 import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
@@ -152,6 +153,30 @@ class OutputTest {
     ) {
         MovementController(mapSize, Console).readMovement(rawMovement)
         assertThat(output()).contains("[ERROR]")
+    }
+
+    @Test
+    fun `계산한 행동 매뉴얼을 출력한다`() {
+        val map = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
+        ManualController(Console).findBestManual(
+            map, Movement.of(
+                listOf(
+                    "0,0:10,10,10,70",
+                    "1,0:10,10,10,70",
+                    "0,1:10,10,10,70",
+                    "1,1:10,10,10,70"
+                )
+            )
+        )
+        assertThat(output())
+            .contains(
+                listOf(
+                    "Position(x=0, y=0) :",
+                    "Position(x=1, y=0) :",
+                    "Position(x=0, y=1) :",
+                    "Position(x=1, y=1) :"
+                )
+            )
     }
 
     companion object {
