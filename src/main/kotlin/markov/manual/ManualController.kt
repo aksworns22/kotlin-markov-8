@@ -22,6 +22,7 @@ class ManualController(val output: ManualOutput) {
             require(afterGap <= Manual.DEFAULT_DISCOUNT_FACTOR * beforeGap) { FINDING_MANUAL_ERROR_MESSAGE }
         }
         require(afterGap <= Manual.DEFAULT_DISCOUNT_FACTOR * beforeGap) { FINDING_MANUAL_ERROR_MESSAGE }
+        output.println(manual3)
         return manual2
     }
 
