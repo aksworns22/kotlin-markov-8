@@ -9,3 +9,4 @@ rootProject.name = "kotlin-markov-8"
 
 include("core")
 include("app-cli")
+include("app-gui")
