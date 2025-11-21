@@ -12,18 +12,19 @@ class ManualController(val output: ManualOutput) {
         var manual3 = manual2.improve(simulationMap, distanceMap, movement)
         var beforeGap = manual1.maxGapWith(manual2)
         var afterGap = manual2.maxGapWith(manual3)
-        require(afterGap <= Manual.DEFAULT_DISCOUNT_FACTOR * beforeGap) { FINDING_MANUAL_ERROR_MESSAGE }
+        val epsilon = 1e-9
+        require(afterGap <= Manual.DEFAULT_DISCOUNT_FACTOR * beforeGap + epsilon) { FINDING_MANUAL_ERROR_MESSAGE }
         while (afterGap > STOP_THRESHOLD) {
             manual1 = manual2
             manual2 = manual3
             manual3 = manual3.improve(simulationMap, distanceMap, movement)
             beforeGap = manual1.maxGapWith(manual2)
             afterGap = manual2.maxGapWith(manual3)
-            require(afterGap <= Manual.DEFAULT_DISCOUNT_FACTOR * beforeGap) { FINDING_MANUAL_ERROR_MESSAGE }
+            require(afterGap <= Manual.DEFAULT_DISCOUNT_FACTOR * beforeGap + epsilon) { FINDING_MANUAL_ERROR_MESSAGE }
         }
-        require(afterGap <= Manual.DEFAULT_DISCOUNT_FACTOR * beforeGap) { FINDING_MANUAL_ERROR_MESSAGE }
+        require(afterGap <= Manual.DEFAULT_DISCOUNT_FACTOR * beforeGap + epsilon) { FINDING_MANUAL_ERROR_MESSAGE }
         output.println(manual3)
-        return manual2
+        return manual3
     }
 
     companion object {
