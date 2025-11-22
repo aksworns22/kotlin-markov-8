@@ -149,4 +149,33 @@ public class GuiApplicationTest {
         simulationPanel.paintSimulation();
         window.panel("simulationPanel").panel("Position(0,0) - START").label("Current").requireVisible();
     }
+
+    @Test
+    public void shouldDisplayNextPositionWhenClickButton() {
+        SimulationMap map = new SimulationMap(
+                new MapSize(2, 2),
+                new Position(0, 0),
+                new Position(1, 1),
+                new Position(0, 0)
+        );
+        Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
+                List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
+        );
+        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        new SimulationController(simulationPanel).startFrom(
+                new SimulationMap(
+                        new MapSize(2, 2),
+                        new Position(0, 0),
+                        new Position(1, 1),
+                        new Position(0, 0)
+                ),
+                new SimulationTime(2),
+                movement,
+                OneToHundredGenerator.INSTANCE
+        );
+        simulationPanel.paintSimulation();
+        window.maximize();
+        window.button("nextSimulation").click();
+        window.panel("simulationPanel").panel("Position(1,0)").label("Current").requireVisible();
+    }
 }
