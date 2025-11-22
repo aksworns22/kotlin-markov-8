@@ -13,8 +13,8 @@ object Console : MessageOutput, SimulationOutput, ManualOutput {
 
     override fun println(manual: Manual) {
         println("====== 최선의 행동 메뉴얼 ======")
-        for (recommendAction in manual.recommendActions) {
-            println("${recommendAction.key} : ${recommendAction.value}")
+        for (recommendAction in manual.costMap) {
+            println("${recommendAction.key} : ${String.format("%.2f", recommendAction.value.value)}")
         }
         println("============================")
     }
