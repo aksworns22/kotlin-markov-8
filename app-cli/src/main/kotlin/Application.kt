@@ -8,17 +8,12 @@ import markov.map.SimulationMapController
 import markov.movement.MovementController
 import markov.movement.MovementReader
 import Console
+import markov.random.OneToHundredGenerator
 import markov.random.RandomGenerator
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
 import java.io.InputStream
 import kotlin.random.Random
-
-object OneToHundredGenerator : RandomGenerator {
-    override fun generate(): Int {
-        return Random.nextInt(1, 101)
-    }
-}
 
 fun runApplication(mapStream: InputStream, movementStream: InputStream) {
     val map = SimulationMapController(Console).readMap(MapReader.read(mapStream))
