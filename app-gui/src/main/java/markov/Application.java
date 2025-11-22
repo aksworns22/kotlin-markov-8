@@ -25,7 +25,7 @@ public class Application {
         SimulationMap map = new SimulationMapController(messageLogger).readMap(MapReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.MAP)));
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(MovementReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.PROBABILITY)));
         Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
-        new SimulationController(simulationPanel).startFrom(map, new SimulationTime(0), movement, OneToHundredGenerator.INSTANCE);
+        new SimulationController(simulationPanel).startFrom(map, new SimulationTime(100), movement, OneToHundredGenerator.INSTANCE);
         simulationPanel.paintSimulation();
     }
 }
