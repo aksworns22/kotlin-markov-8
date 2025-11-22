@@ -122,4 +122,31 @@ public class GuiApplicationTest {
             panel.panel("Position(0,1)").background().requireNotEqualTo(defaultColor);
         });
     }
+
+    @Test
+    public void shouldDisplayCurrentLocation() {
+        SimulationMap map = new SimulationMap(
+                new MapSize(2, 2),
+                new Position(0, 0),
+                new Position(1, 1),
+                new Position(0, 0)
+        );
+        Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
+                List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
+        );
+        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        new SimulationController(simulationPanel).startFrom(
+                new SimulationMap(
+                        new MapSize(2, 2),
+                        new Position(0, 0),
+                        new Position(1, 1),
+                        new Position(0, 0)
+                ),
+                new SimulationTime(0),
+                movement,
+                OneToHundredGenerator.INSTANCE
+        );
+        simulationPanel.paintSimulation();
+        window.panel("simulationPanel").panel("Position(0,0) - START").label("Current").requireVisible();
+    }
 }
