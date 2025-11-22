@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 public class MainFrame extends JFrame {
-    MainFrame(MessageLogger messageLog) {
+    MainFrame(MessageLogger messageLog, SimulationPanel simulationPanel) {
         setTitle("Open Mission: Markov Reward Process");
         setSize(600, 600);
         setLayout(new BorderLayout());
@@ -19,6 +19,7 @@ public class MainFrame extends JFrame {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
         scrollPane.setPreferredSize(new Dimension(200, 100));
+        add(simulationPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.SOUTH);
         setVisible(true);
     }

@@ -38,7 +38,7 @@ public class InvalidMapOutputTest {
     @Before
     public void onSetUp() {
         messageLogger = new MessageLogger();
-        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger));
+        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger, new SimulationPanel()));
         window = new FrameFixture(frame);
         window.show();
     }
