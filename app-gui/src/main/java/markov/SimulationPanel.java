@@ -1,8 +1,11 @@
 package markov;
 
+import markov.manual.Cost;
+import markov.manual.Manual;
 import markov.map.Location;
 import markov.map.Position;
 import markov.map.SimulationMap;
+import markov.output.ManualOutput;
 import markov.output.SimulationOutput;
 import markov.simulation.Simulation;
 import org.jetbrains.annotations.NotNull;
@@ -10,9 +13,13 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
-public class SimulationPanel extends JPanel implements SimulationOutput {
+public class SimulationPanel extends JPanel implements SimulationOutput, ManualOutput {
     private ArrayList<Simulation> resultQueue = new ArrayList<>();
+    private Manual manual;
+    private double maxManualValue = Double.MIN_VALUE;
+    private double minManualValue = Double.MAX_VALUE;
     private int current = 0;
 
     SimulationPanel() {
@@ -23,6 +30,21 @@ public class SimulationPanel extends JPanel implements SimulationOutput {
     @Override
     public void println(@NotNull Simulation simulation) {
         resultQueue.add(simulation);
+    }
+
+
+    @Override
+    public void println(@NotNull Manual manual) {
+        this.manual = manual;
+        Map<Position, Cost> costMap = manual.getCostMap();
+        for (Cost cost : costMap.values()) {
+            if (cost.getValue() > maxManualValue) maxManualValue = cost.getValue();
+            if (cost.getValue() < minManualValue) minManualValue = cost.getValue();
+        }
+    }
+
+    private double normalize(Cost cost) {
+        return (cost.getValue() - minManualValue) / (maxManualValue - minManualValue);
     }
 
     public void paintSimulation() {
@@ -45,7 +67,7 @@ public class SimulationPanel extends JPanel implements SimulationOutput {
                 }
                 gbc.gridx = c;
                 gbc.gridy = r;
-                add(new SimulationLocation(pos, locType), gbc);
+                add(new SimulationLocation(pos, locType, normalize(manual.getCostMap().get(new Position(r, c)))), gbc);
             }
         }
         current += 1;
