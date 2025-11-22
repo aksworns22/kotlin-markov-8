@@ -1,8 +1,11 @@
 package markov;
 
-import markov.map.MapSize;
-import markov.map.SimulationMapController;
+import markov.map.*;
+import markov.movement.Movement;
 import markov.movement.MovementController;
+import markov.random.OneToHundredGenerator;
+import markov.simulation.SimulationController;
+import markov.simulation.SimulationTime;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
@@ -17,11 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GuiApplicationTest {
     private FrameFixture window;
     private MessageLogger messageLogger;
+    private SimulationPanel simulationPanel;
 
     @Before
     public void onSetUp() {
         messageLogger = new MessageLogger();
-        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger));
+        simulationPanel = new SimulationPanel();
+        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger, simulationPanel));
         window = new FrameFixture(frame);
         window.show();
     }
@@ -51,5 +56,32 @@ public class GuiApplicationTest {
         ).readMovement(List.of("0,0:25,25,25,25"));
         String text = window.textBox("messageLog").text();
         assertThat(text).contains("[SUCCESS] 위치 별 이동 확률을 불러왔습니다");
+    }
+
+    @Test
+    public void shouldDisplayMapContainsStartAndDestinationPosition() {
+        SimulationMap map = new SimulationMap(
+                new MapSize(2, 2),
+                new Position(0, 0),
+                new Position(1, 1),
+                new Position(0, 0)
+        );
+        Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
+                List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
+        );
+        new SimulationController(simulationPanel).startFrom(
+                new SimulationMap(
+                        new MapSize(2, 2),
+                        new Position(0, 0),
+                        new Position(1, 1),
+                        new Position(0, 0)
+                ),
+                new SimulationTime(0),
+                movement,
+                OneToHundredGenerator.INSTANCE
+        );
+        simulationPanel.paintSimulation();
+        window.panel("simulationPanel").panel("Position(0,0) - START").requireVisible();
+        window.panel("simulationPanel").panel("Position(1,1) - DESTINATION").requireVisible();
     }
 }
