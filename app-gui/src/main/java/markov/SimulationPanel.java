@@ -56,6 +56,7 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
         gbc.fill = GridBagConstraints.NONE;
         for (int r = 0; r < map.getSize().getHeight(); r++) {
             for (int c = 0; c < map.getSize().getWidth(); c++) {
+                boolean isCurrentPosition = false;
                 Position pos = new Position(c, r);
                 Location locType;
                 if (map.getStart().equals(pos)) {
@@ -65,9 +66,12 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
                 } else {
                     locType = Location.WAYPOINT;
                 }
+                if (map.getCurrent().equals(pos)) {
+                    isCurrentPosition = true;
+                }
                 gbc.gridx = c;
                 gbc.gridy = r;
-                add(new SimulationLocation(pos, locType, normalize(manual.getCostMap().get(new Position(r, c)))), gbc);
+                add(new SimulationLocation(pos, isCurrentPosition, locType, normalize(manual.getCostMap().get(new Position(r, c)))), gbc);
             }
         }
         current += 1;
