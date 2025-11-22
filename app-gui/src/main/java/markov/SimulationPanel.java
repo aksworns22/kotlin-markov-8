@@ -71,7 +71,7 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
                 }
                 gbc.gridx = c;
                 gbc.gridy = r;
-                add(new SimulationLocation(pos, isCurrentPosition, locType, normalize(manual.getCostMap().get(new Position(r, c)))), gbc);
+                add(new SimulationLocation(pos, isCurrentPosition, locType, normalize(manual.getCostMap().get(new Position(c, r)))), gbc);
             }
         }
         current += 1;

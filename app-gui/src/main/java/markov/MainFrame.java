@@ -21,6 +21,7 @@ public class MainFrame extends JFrame {
         scrollPane.setPreferredSize(new Dimension(200, 100));
         add(simulationPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.SOUTH);
+        add(new SimulationControlPanel(simulationPanel));
         setVisible(true);
     }
 }
