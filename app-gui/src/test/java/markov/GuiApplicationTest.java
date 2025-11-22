@@ -1,5 +1,7 @@
 package markov;
 
+import markov.manual.Manual;
+import markov.manual.ManualController;
 import markov.map.*;
 import markov.movement.Movement;
 import markov.movement.MovementController;
@@ -13,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.awt.*;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,6 +72,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
         );
+        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -83,5 +87,37 @@ public class GuiApplicationTest {
         simulationPanel.paintSimulation();
         window.panel("simulationPanel").panel("Position(0,0) - START").requireVisible();
         window.panel("simulationPanel").panel("Position(1,1) - DESTINATION").requireVisible();
+    }
+
+    @Test
+    public void shouldDisplayCost() {
+        SimulationMap map = new SimulationMap(
+                new MapSize(2, 2),
+                new Position(0, 0),
+                new Position(1, 1),
+                new Position(0, 0)
+        );
+        Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
+                List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
+        );
+        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        new SimulationController(simulationPanel).startFrom(
+                new SimulationMap(
+                        new MapSize(2, 2),
+                        new Position(0, 0),
+                        new Position(1, 1),
+                        new Position(0, 0)
+                ),
+                new SimulationTime(0),
+                movement,
+                OneToHundredGenerator.INSTANCE
+        );
+        simulationPanel.paintSimulation();
+        assertThat(window.panel("simulationPanel")).satisfies((panel) -> {
+            panel.panel("Position(0,0) - START").background().requireNotEqualTo(Color.WHITE);
+            panel.panel("Position(1,1) - DESTINATION").background().requireNotEqualTo(Color.WHITE);
+            panel.panel("Position(1,0)").background().requireNotEqualTo(Color.WHITE);
+            panel.panel("Position(0,1)").background().requireNotEqualTo(Color.WHITE);
+        });
     }
 }
