@@ -6,8 +6,7 @@ import markov.output.MessageOutput;
 import javax.swing.*;
 
 public class MessageLogger extends JTextArea implements MessageOutput {
-    MessageLogger(int rows, int cols) {
-        super(rows, cols);
+    MessageLogger() {
         setName("messageLog");
         setEditable(false);
     }

@@ -2,6 +2,7 @@ package markov;
 
 import markov.input.Data;
 import markov.input.DataLoader;
+import markov.map.SimulationMapController;
 import markov.movement.MovementReader;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
@@ -19,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(Parameterized.class)
 public class InvalidMapOutputTest {
     private FrameFixture window;
+    private MessageLogger messageLogger;
 
     private final List<String> invalidMapData;
 
@@ -35,11 +37,8 @@ public class InvalidMapOutputTest {
 
     @Before
     public void onSetUp() {
-        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(
-                        invalidMapData,
-                        MovementReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.PROBABILITY))
-                )
-        );
+        messageLogger = new MessageLogger();
+        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger));
         window = new FrameFixture(frame);
         window.show();
     }
@@ -51,6 +50,7 @@ public class InvalidMapOutputTest {
 
     @Test
     public void shouldDisplayMessageWhenMapLoadsFail() {
+        new SimulationMapController(messageLogger).readMap(invalidMapData);
         String text = window.textBox("messageLog").text();
         assertThat(text).contains("[ERROR]");
     }

@@ -1,9 +1,8 @@
 package markov;
 
-import markov.input.Data;
-import markov.input.DataLoader;
-import markov.map.MapReader;
-import markov.movement.MovementReader;
+import markov.map.MapSize;
+import markov.map.SimulationMapController;
+import markov.movement.MovementController;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
@@ -11,17 +10,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GuiApplicationTest {
     private FrameFixture window;
+    private MessageLogger messageLogger;
 
     @Before
     public void onSetUp() {
-        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(
-                MapReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.MAP)),
-                MovementReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.PROBABILITY))
-        ));
+        messageLogger = new MessageLogger();
+        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger));
         window = new FrameFixture(frame);
         window.show();
     }
@@ -38,12 +38,17 @@ public class GuiApplicationTest {
 
     @Test
     public void shouldDisplayMessageWhenMapLoadsSuccessfully() {
+        new SimulationMapController(messageLogger).readMap(List.of("2x2", "s .", ". d"));
         String text = window.textBox("messageLog").text();
         assertThat(text).contains("[SUCCESS] 지도를 불러왔습니다");
     }
 
     @Test
     public void shouldDisplayMessageWhenMovementLoadsSuccessfully() {
+        new MovementController(
+                new MapSize(1, 1),
+                messageLogger
+        ).readMovement(List.of("0,0:25,25,25,25"));
         String text = window.textBox("messageLog").text();
         assertThat(text).contains("[SUCCESS] 위치 별 이동 확률을 불러왔습니다");
     }
