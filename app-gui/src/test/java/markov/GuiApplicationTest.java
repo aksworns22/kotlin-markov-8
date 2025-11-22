@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
@@ -113,11 +114,12 @@ public class GuiApplicationTest {
                 OneToHundredGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
+        Color defaultColor = new JPanel().getBackground();
         assertThat(window.panel("simulationPanel")).satisfies((panel) -> {
-            panel.panel("Position(0,0) - START").background().requireNotEqualTo(Color.WHITE);
-            panel.panel("Position(1,1) - DESTINATION").background().requireNotEqualTo(Color.WHITE);
-            panel.panel("Position(1,0)").background().requireNotEqualTo(Color.WHITE);
-            panel.panel("Position(0,1)").background().requireNotEqualTo(Color.WHITE);
+            panel.panel("Position(0,0) - START").background().requireNotEqualTo(defaultColor);
+            panel.panel("Position(1,1) - DESTINATION").background().requireNotEqualTo(defaultColor);
+            panel.panel("Position(1,0)").background().requireNotEqualTo(defaultColor);
+            panel.panel("Position(0,1)").background().requireNotEqualTo(defaultColor);
         });
     }
 }
