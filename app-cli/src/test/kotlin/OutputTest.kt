@@ -146,7 +146,7 @@ class OutputTest {
             MovementController(
                 simulationMap.size,
                 Console
-            ).readMovement(MovementReader.read(DataLoader.load(Data.PROBABILITY)))
+            ).readMovement(MovementReader.read(DataLoader.load(movementFile)))
         ManualController(Console).findBestManual(simulationMap, movement!!)
         Assertions.assertThat(output())
             .contains(
