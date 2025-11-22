@@ -1,5 +1,8 @@
 package markov;
 
+import markov.input.Data;
+import markov.input.DataLoader;
+import markov.movement.MovementReader;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
@@ -32,7 +35,11 @@ public class InvalidMapOutputTest {
 
     @Before
     public void onSetUp() {
-        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(invalidMapData));
+        MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(
+                        invalidMapData,
+                        MovementReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.PROBABILITY))
+                )
+        );
         window = new FrameFixture(frame);
         window.show();
     }

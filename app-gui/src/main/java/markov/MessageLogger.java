@@ -14,6 +14,6 @@ public class MessageLogger extends JTextArea implements MessageOutput {
 
     @Override
     public void println(Message message) {
-        append(message.getFull());
+        append(message.getFull() + "\n");
     }
 }

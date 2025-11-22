@@ -1,13 +1,15 @@
 package markov;
 
+import markov.map.SimulationMap;
 import markov.map.SimulationMapController;
+import markov.movement.MovementController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class MainFrame extends JFrame {
-    MainFrame(List<String> rawMap) {
+    MainFrame(List<String> rawMap, List<String> rawMovement) {
         setTitle("Open Mission: Markov Reward Process");
         setSize(600, 600);
         setLayout(new BorderLayout());
@@ -20,6 +22,9 @@ public class MainFrame extends JFrame {
         scrollPane.setPreferredSize(new Dimension(200, 100));
         add(scrollPane, BorderLayout.SOUTH);
         setVisible(true);
-        new SimulationMapController(messageLog).readMap(rawMap);
+        SimulationMap map = new SimulationMapController(messageLog).readMap(rawMap);
+        if (map != null) {
+            new MovementController(map.getSize(), messageLog).readMovement(rawMovement);
+        }
     }
 }
