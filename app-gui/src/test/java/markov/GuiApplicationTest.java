@@ -29,7 +29,9 @@ public class GuiApplicationTest {
     @Before
     public void onSetUp() {
         messageLogger = new MessageLogger();
-        simulationPanel = new SimulationPanel();
+        simulationPanel = new SimulationPanel(new MovementController(new MapSize(2, 2), messageLogger).readMovement(
+                List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
+        ));
         MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger, simulationPanel));
         window = new FrameFixture(frame);
         window.show();
@@ -177,5 +179,49 @@ public class GuiApplicationTest {
         window.maximize();
         window.button("nextSimulation").click();
         window.panel("simulationPanel").panel("Position(1,0)").label("Current").requireVisible();
+    }
+
+    @Test
+    public void shouldDisplayMovementProbability() {
+        SimulationMap map = new SimulationMap(
+                new MapSize(2, 2),
+                new Position(0, 0),
+                new Position(1, 1),
+                new Position(0, 0)
+        );
+        Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
+                List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
+        );
+        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        new SimulationController(simulationPanel).startFrom(
+                new SimulationMap(
+                        new MapSize(2, 2),
+                        new Position(0, 0),
+                        new Position(1, 1),
+                        new Position(0, 0)
+                ),
+                new SimulationTime(2),
+                movement,
+                OneToHundredGenerator.INSTANCE
+        );
+        simulationPanel.paintSimulation();
+        assertThat(window.panel("simulationPanel")).satisfies((panel) -> {
+            panel.panel("Position(0,0) - START").label("UP").requireVisible();
+            panel.panel("Position(0,0) - START").label("DOWN").requireVisible();
+            panel.panel("Position(0,0) - START").label("LEFT").requireVisible();
+            panel.panel("Position(0,0) - START").label("RIGHT").requireVisible();
+            panel.panel("Position(1,1) - DESTINATION").label("UP").requireVisible();
+            panel.panel("Position(1,1) - DESTINATION").label("DOWN").requireVisible();
+            panel.panel("Position(1,1) - DESTINATION").label("LEFT").requireVisible();
+            panel.panel("Position(1,1) - DESTINATION").label("RIGHT").requireVisible();
+            panel.panel("Position(1,0)").label("UP").requireVisible();
+            panel.panel("Position(1,0)").label("DOWN").requireVisible();
+            panel.panel("Position(1,0)").label("LEFT").requireVisible();
+            panel.panel("Position(1,0)").label("RIGHT").requireVisible();
+            panel.panel("Position(0,1)").label("UP").requireVisible();
+            panel.panel("Position(0,1)").label("DOWN").requireVisible();
+            panel.panel("Position(0,1)").label("LEFT").requireVisible();
+            panel.panel("Position(0,1)").label("RIGHT").requireVisible();
+        });
     }
 }
