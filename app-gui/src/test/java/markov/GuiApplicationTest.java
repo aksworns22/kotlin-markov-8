@@ -9,6 +9,7 @@ import markov.random.OneToHundredGenerator;
 import markov.simulation.SimulationController;
 import markov.simulation.SimulationTime;
 import org.assertj.swing.edt.GuiActionRunner;
+import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;
@@ -20,6 +21,7 @@ import java.awt.*;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.swing.core.matcher.JButtonMatcher.withText;
 
 public class GuiApplicationTest {
     private FrameFixture window;
@@ -83,7 +85,7 @@ public class GuiApplicationTest {
                         new Position(1, 1),
                         new Position(0, 0)
                 ),
-                new SimulationTime(0),
+                new SimulationTime(10),
                 movement,
                 OneToHundredGenerator.INSTANCE
         );
@@ -111,7 +113,7 @@ public class GuiApplicationTest {
                         new Position(1, 1),
                         new Position(0, 0)
                 ),
-                new SimulationTime(0),
+                new SimulationTime(10),
                 movement,
                 OneToHundredGenerator.INSTANCE
         );
@@ -144,7 +146,7 @@ public class GuiApplicationTest {
                         new Position(1, 1),
                         new Position(0, 0)
                 ),
-                new SimulationTime(0),
+                new SimulationTime(10),
                 movement,
                 OneToHundredGenerator.INSTANCE
         );
@@ -171,7 +173,7 @@ public class GuiApplicationTest {
                         new Position(1, 1),
                         new Position(0, 0)
                 ),
-                new SimulationTime(2),
+                new SimulationTime(10),
                 movement,
                 OneToHundredGenerator.INSTANCE
         );
@@ -238,13 +240,8 @@ public class GuiApplicationTest {
         );
         Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
         new SimulationController(simulationPanel).startFrom(
-                new SimulationMap(
-                        new MapSize(2, 2),
-                        new Position(0, 0),
-                        new Position(1, 1),
-                        new Position(0, 0)
-                ),
-                new SimulationTime(2),
+                map,
+                new SimulationTime(10),
                 movement,
                 OneToHundredGenerator.INSTANCE
         );
@@ -253,5 +250,55 @@ public class GuiApplicationTest {
         window.label("turn").requireText("현재 턴: 0");
         window.button("nextSimulation").click();
         window.label("turn").requireText("현재 턴: 1");
+    }
+
+    @Test
+    public void shouldDisplaySuccessMessage() {
+        SimulationMap map = new SimulationMap(
+                new MapSize(2, 2),
+                new Position(0, 0),
+                new Position(1, 1),
+                new Position(0, 1)
+        );
+        Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
+                List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
+        );
+        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        new SimulationController(simulationPanel).startFrom(
+                map,
+                new SimulationTime(1),
+                movement,
+                OneToHundredGenerator.INSTANCE
+        );
+        simulationPanel.paintSimulation();
+        window.maximize();
+        window.button("nextSimulation").click();
+        DialogFixture dialog = window.dialog();
+        assertThat(dialog.target().getTitle()).isEqualTo("Simulation Success");
+    }
+
+    @Test
+    public void shouldDisplayFailMessage() {
+        SimulationMap map = new SimulationMap(
+                new MapSize(2, 2),
+                new Position(0, 0),
+                new Position(1, 1),
+                new Position(0, 0)
+        );
+        Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
+                List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
+        );
+        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        new SimulationController(simulationPanel).startFrom(
+                map,
+                new SimulationTime(1),
+                movement,
+                OneToHundredGenerator.INSTANCE
+        );
+        simulationPanel.paintSimulation();
+        window.maximize();
+        window.button("nextSimulation").click();
+        DialogFixture dialog = window.dialog();
+        assertThat(dialog.target().getTitle()).isEqualTo("Simulation Fail");
     }
 }
