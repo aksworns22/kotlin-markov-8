@@ -22,6 +22,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.swing.core.matcher.JButtonMatcher.withText;
+import static org.assertj.swing.timing.Pause.pause;
 
 public class GuiApplicationTest {
     private FrameFixture window;
@@ -178,7 +179,8 @@ public class GuiApplicationTest {
                 OneToHundredGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
-        window.maximize();
+        window.moveTo(new Point(0, 0));
+        window.resizeTo(new Dimension(1000, 800));
         window.button("nextSimulation").click();
         window.panel("simulationPanel").panel("Position(1,0)").label("Current").requireVisible();
     }
@@ -246,7 +248,8 @@ public class GuiApplicationTest {
                 OneToHundredGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
-        window.maximize();
+        window.moveTo(new Point(0, 0));
+        window.resizeTo(new Dimension(1000, 800));
         window.label("turn").requireText("현재 턴: 0");
         window.button("nextSimulation").click();
         window.label("turn").requireText("현재 턴: 1");
@@ -271,7 +274,8 @@ public class GuiApplicationTest {
                 OneToHundredGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
-        window.maximize();
+        window.moveTo(new Point(0, 0));
+        window.resizeTo(new Dimension(1000, 800));
         window.button("nextSimulation").click();
         DialogFixture dialog = window.dialog();
         assertThat(dialog.target().getTitle()).isEqualTo("Simulation Success");
@@ -296,7 +300,8 @@ public class GuiApplicationTest {
                 OneToHundredGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
-        window.maximize();
+        window.moveTo(new Point(0, 0));
+        window.resizeTo(new Dimension(1000, 800));
         window.button("nextSimulation").click();
         DialogFixture dialog = window.dialog();
         assertThat(dialog.target().getTitle()).isEqualTo("Simulation Fail");
