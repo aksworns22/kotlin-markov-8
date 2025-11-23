@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("application")
 }
 
 group = "com.github.aksworns22"
@@ -14,6 +15,11 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
+
+application {
+    mainClass = "gui.Application"
+}
+
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
