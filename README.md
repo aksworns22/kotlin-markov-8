@@ -188,14 +188,7 @@ s . .
 ./gradlew :app-cli:run --args=10
 ```
 
-#### CLI 실행 (`app-cli`)
-
-```bash
-# 사용법: ./gradlew :app-cli:run --args="[시간]"
-./gradlew :app-cli:run --args=10
-```
-
-### app-gui 실행 방법
+#### app-gui 실행 방법
 
 Java Swing을 통해 이동과 비용 지도를 시각적으로 확인할 수 있습니다.
 
