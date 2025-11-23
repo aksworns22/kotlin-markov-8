@@ -56,7 +56,9 @@ open class Benchmark {
                 repeat(swapCount) {
                     val i = random.nextInt(size)
                     val j = random.nextInt(size)
-                    val temp = this[i]; this[i] = this[j]; this[j] = temp
+                    val temp = this[i]
+                    this[i] = this[j]
+                    this[j] = temp
                 }
             }
             else -> throw IllegalArgumentException("Unknown distribution: $distribution")
