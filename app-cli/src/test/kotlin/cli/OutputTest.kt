@@ -1,7 +1,9 @@
+package cli
+
 import markov.InvalidFixtures
+import markov.cost.CostMapController
 import markov.input.Data
 import markov.input.DataLoader
-import markov.cost.CostMapController
 import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
@@ -62,25 +64,25 @@ class OutputTest {
             mapOf(
                 Position(0, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.NO,
-                        ActionType.DOWN to Probability.NO,
-                        ActionType.LEFT to Probability.NO,
+                        ActionType.UP to Probability.Companion.NO,
+                        ActionType.DOWN to Probability.Companion.NO,
+                        ActionType.LEFT to Probability.Companion.NO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 ),
                 Position(1, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.NO,
-                        ActionType.DOWN to Probability.NO,
-                        ActionType.LEFT to Probability.NO,
+                        ActionType.UP to Probability.Companion.NO,
+                        ActionType.DOWN to Probability.Companion.NO,
+                        ActionType.LEFT to Probability.Companion.NO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 ),
                 Position(2, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.NO,
-                        ActionType.DOWN to Probability.NO,
-                        ActionType.LEFT to Probability.NO,
+                        ActionType.UP to Probability.Companion.NO,
+                        ActionType.DOWN to Probability.Companion.NO,
+                        ActionType.LEFT to Probability.Companion.NO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 )
@@ -108,9 +110,9 @@ class OutputTest {
             mapOf(
                 Position(0, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.NO,
-                        ActionType.DOWN to Probability.NO,
-                        ActionType.LEFT to Probability.NO,
+                        ActionType.UP to Probability.Companion.NO,
+                        ActionType.DOWN to Probability.Companion.NO,
+                        ActionType.LEFT to Probability.Companion.NO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 )
@@ -186,7 +188,7 @@ class OutputTest {
     fun `계산한 행동 매뉴얼을 출력한다`() {
         val map = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
         CostMapController(Console).findCostMap(
-            map, Movement.of(
+            map, Movement.Companion.of(
                 listOf(
                     "0,0:10,10,10,70",
                     "1,0:10,10,10,70",

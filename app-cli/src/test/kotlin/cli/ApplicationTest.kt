@@ -1,7 +1,9 @@
+package cli
+
 import markov.input.Data
 import markov.input.DataLoader
-import markov.runApplication
-import org.assertj.core.api.Assertions.assertThat
+import markov.simulation.SimulationTime
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -40,8 +42,8 @@ class ApplicationTest {
         val movementFile = tempDirectory.resolve(Data.PROBABILITY.path)
         val rawMovement = listOf("0,0:10,10,10,70", "0,1:10,10,10,70", "1,0:10,10,10,70", "1,1:10,10,10,70")
         movementFile.writeText("${rawMovement[0]}\n${rawMovement[1]}\n${rawMovement[2]}\n${rawMovement[3]}")
-        runApplication(DataLoader.load(mapFile), DataLoader.load(movementFile))
-        assertThat(output())
+        runApplication(DataLoader.load(mapFile), DataLoader.load(movementFile), SimulationTime(3))
+        Assertions.assertThat(output())
             .contains(
                 listOf(
                     "[SUCCESS] 지도를 불러왔습니다",

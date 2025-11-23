@@ -1,3 +1,5 @@
+package cli
+
 import markov.cost.CostMap
 import markov.output.CostMapOutput
 import markov.output.Message
