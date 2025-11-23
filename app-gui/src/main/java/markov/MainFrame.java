@@ -11,7 +11,7 @@ import java.util.List;
 public class MainFrame extends JFrame {
     MainFrame(MessageLogger messageLog, SimulationPanel simulationPanel) {
         setTitle("Open Mission: Markov Reward Process");
-        setSize(600, 600);
+        setSize(600, 700);
         setLayout(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(
                 messageLog,

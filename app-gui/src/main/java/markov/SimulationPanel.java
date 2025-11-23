@@ -41,8 +41,10 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
         this.manual = manual;
         Map<Position, Cost> costMap = manual.getCostMap();
         for (Cost cost : costMap.values()) {
-            if (cost.getValue() > maxManualValue) maxManualValue = cost.getValue();
-            if (cost.getValue() < minManualValue) minManualValue = cost.getValue();
+            if (cost.getValue() > maxManualValue)
+                maxManualValue = cost.getValue();
+            if (cost.getValue() < minManualValue)
+                minManualValue = cost.getValue();
         }
     }
 
@@ -51,7 +53,8 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
     }
 
     public void paintSimulation() {
-        if (current >= resultQueue.size()) return;
+        if (current >= resultQueue.size())
+            return;
         Simulation currentSimulation = resultQueue.get(current);
         SimulationMap map = currentSimulation.getMap();
         removeAll();
@@ -82,7 +85,25 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
                             normalize(manual.getCostMap().get(new Position(c, r))),
                             movement.getProbabilities().get(new Position(c, r))), gbc);
                 }
-
+            }
+        }
+        if (current == resultQueue.size() - 1) {
+            if (currentSimulation.isFail()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "시간 제한 내에 목적지에 도착하지 못했습니다",
+                        "Simulation Fail",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                return;
+            }
+            if (currentSimulation.isSuccess()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "시간 제한 내에 목적지에 도착했습니다",
+                        "Simulation Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
             }
         }
         current += 1;
