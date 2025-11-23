@@ -1,12 +1,7 @@
 package markov;
 
-import markov.input.Data;
-import markov.input.DataLoader;
 import markov.map.MapSize;
-import markov.map.SimulationMapController;
-import markov.movement.Movement;
 import markov.movement.MovementController;
-import markov.movement.MovementReader;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
@@ -17,7 +12,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;

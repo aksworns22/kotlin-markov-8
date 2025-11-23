@@ -1,12 +1,7 @@
 package markov;
 
-import markov.map.SimulationMap;
-import markov.map.SimulationMapController;
-import markov.movement.MovementController;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class MainFrame extends JFrame {
     MainFrame(MessageLogger messageLog, SimulationPanel simulationPanel) {
