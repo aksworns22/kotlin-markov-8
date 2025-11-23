@@ -5,6 +5,7 @@ import markov.manual.Manual;
 import markov.map.Location;
 import markov.map.Position;
 import markov.map.SimulationMap;
+import markov.movement.Movement;
 import markov.output.ManualOutput;
 import markov.output.SimulationOutput;
 import markov.simulation.Simulation;
@@ -17,12 +18,14 @@ import java.util.Map;
 
 public class SimulationPanel extends JPanel implements SimulationOutput, ManualOutput {
     private ArrayList<Simulation> resultQueue = new ArrayList<>();
+    private final Movement movement;
     private Manual manual;
     private double maxManualValue = Double.MIN_VALUE;
     private double minManualValue = Double.MAX_VALUE;
     private int current = 0;
 
-    SimulationPanel() {
+    SimulationPanel(Movement movement) {
+        this.movement = movement;
         setName("simulationPanel");
         setLayout(new GridBagLayout());
     }
@@ -71,7 +74,15 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
                 }
                 gbc.gridx = c;
                 gbc.gridy = r;
-                add(new SimulationLocation(pos, isCurrentPosition, locType, normalize(manual.getCostMap().get(new Position(c, r)))), gbc);
+                if (!movement.getProbabilities().isEmpty()) {
+                    add(new SimulationLocation(
+                            pos,
+                            isCurrentPosition,
+                            locType,
+                            normalize(manual.getCostMap().get(new Position(c, r))),
+                            movement.getProbabilities().get(new Position(c, r))), gbc);
+                }
+
             }
         }
         current += 1;
