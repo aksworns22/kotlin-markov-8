@@ -1,4 +1,4 @@
-package markov;
+package gui;
 
 import markov.output.Message;
 import markov.output.MessageOutput;

@@ -1,5 +1,6 @@
-package markov;
+package gui;
 
+import markov.InvalidFixtures;
 import markov.map.MapSize;
 import markov.map.SimulationMapController;
 import markov.movement.MovementController;

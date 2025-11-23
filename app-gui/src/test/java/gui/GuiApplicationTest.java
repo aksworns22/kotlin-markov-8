@@ -1,5 +1,8 @@
-package markov;
+package gui;
 
+import gui.MainFrame;
+import gui.MessageLogger;
+import gui.SimulationPanel;
 import markov.cost.CostMap;
 import markov.cost.CostMapController;
 import markov.map.*;

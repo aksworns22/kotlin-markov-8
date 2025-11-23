@@ -1,4 +1,4 @@
-package markov;
+package gui;
 
 import markov.cost.Cost;
 import markov.cost.CostMap;

@@ -1,5 +1,9 @@
-package markov;
+package gui;
 
+import gui.MainFrame;
+import gui.MessageLogger;
+import gui.SimulationPanel;
+import markov.InvalidFixtures;
 import markov.map.MapSize;
 import markov.movement.MovementController;
 import org.assertj.swing.edt.GuiActionRunner;
@@ -40,8 +44,8 @@ public class InvalidMovementOutputTest {
     public void onSetUp() {
         messageLogger = new MessageLogger();
         SimulationPanel simulationPanel = new SimulationPanel(new MovementController(new MapSize(2, 2), messageLogger).readMovement(
-                List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
-        ));
+                        List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
+                ));
         MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger, simulationPanel));
         window = new FrameFixture(frame);
         window.show();

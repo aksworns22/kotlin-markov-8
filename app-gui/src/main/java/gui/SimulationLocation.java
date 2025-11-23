@@ -1,4 +1,4 @@
-package markov;
+package gui;
 
 import markov.map.Location;
 import markov.map.Position;

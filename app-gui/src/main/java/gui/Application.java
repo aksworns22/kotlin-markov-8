@@ -1,4 +1,4 @@
-package markov;
+package gui;
 
 import markov.input.Data;
 import markov.input.DataLoader;
