@@ -188,7 +188,7 @@ s . .
 ./gradlew :app-cli:run --args=10
 ```
 
-#### app-gui 실행 방법
+#### CLI 실행 (`app-gui`)
 
 Java Swing을 통해 이동과 비용 지도를 시각적으로 확인할 수 있습니다.
 
