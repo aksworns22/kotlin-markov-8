@@ -224,4 +224,34 @@ public class GuiApplicationTest {
             panel.panel("Position(0,1)").label("RIGHT").requireVisible();
         });
     }
+
+    @Test
+    public void shouldDisplayCurrentTurn() {
+        SimulationMap map = new SimulationMap(
+                new MapSize(2, 2),
+                new Position(0, 0),
+                new Position(1, 1),
+                new Position(0, 0)
+        );
+        Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
+                List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
+        );
+        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        new SimulationController(simulationPanel).startFrom(
+                new SimulationMap(
+                        new MapSize(2, 2),
+                        new Position(0, 0),
+                        new Position(1, 1),
+                        new Position(0, 0)
+                ),
+                new SimulationTime(2),
+                movement,
+                OneToHundredGenerator.INSTANCE
+        );
+        simulationPanel.paintSimulation();
+        window.maximize();
+        window.label("turn").requireText("현재 턴: 0");
+        window.button("nextSimulation").click();
+        window.label("turn").requireText("현재 턴: 1");
+    }
 }
