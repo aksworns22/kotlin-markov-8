@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.2.0"
+    id("application")
 }
 
 group = "com.github.aksworns22"
@@ -8,6 +9,15 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+
+kotlin {
+    jvmToolchain(21)
+}
+
+application {
+    mainClass = "cli.ApplicationKt"
+}
+
 
 dependencies {
     testImplementation(kotlin("test"))
@@ -19,7 +29,4 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(21)
 }
