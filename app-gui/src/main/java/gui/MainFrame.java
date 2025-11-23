@@ -7,6 +7,7 @@ public class MainFrame extends JFrame {
     MainFrame(MessageLogger messageLog, SimulationPanel simulationPanel) {
         setTitle("Open Mission: Markov Reward Process");
         setSize(600, 700);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(
                 messageLog,
