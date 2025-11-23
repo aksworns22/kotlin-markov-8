@@ -1,7 +1,7 @@
 import markov.InvalidFixtures
 import markov.input.Data
 import markov.input.DataLoader
-import markov.manual.ManualController
+import markov.cost.CostMapController
 import markov.map.MapSize
 import markov.map.Position
 import markov.map.SimulationMap
@@ -147,7 +147,7 @@ class OutputTest {
                 simulationMap.size,
                 Console
             ).readMovement(MovementReader.read(DataLoader.load(movementFile)))
-        ManualController(Console).findBestManual(simulationMap, movement!!)
+        CostMapController(Console).findCostMap(simulationMap, movement!!)
         Assertions.assertThat(output())
             .contains(
                 listOf(
@@ -185,7 +185,7 @@ class OutputTest {
     @Test
     fun `계산한 행동 매뉴얼을 출력한다`() {
         val map = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
-        ManualController(Console).findBestManual(
+        CostMapController(Console).findCostMap(
             map, Movement.of(
                 listOf(
                     "0,0:10,10,10,70",

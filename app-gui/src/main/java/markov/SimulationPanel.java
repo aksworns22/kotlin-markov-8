@@ -1,12 +1,12 @@
 package markov;
 
-import markov.manual.Cost;
-import markov.manual.Manual;
+import markov.cost.Cost;
+import markov.cost.CostMap;
 import markov.map.Location;
 import markov.map.Position;
 import markov.map.SimulationMap;
 import markov.movement.Movement;
-import markov.output.ManualOutput;
+import markov.output.CostMapOutput;
 import markov.output.SimulationOutput;
 import markov.simulation.Simulation;
 import org.jetbrains.annotations.NotNull;
@@ -16,10 +16,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class SimulationPanel extends JPanel implements SimulationOutput, ManualOutput {
+public class SimulationPanel extends JPanel implements SimulationOutput, CostMapOutput {
     private ArrayList<Simulation> resultQueue = new ArrayList<>();
     private final Movement movement;
-    private Manual manual;
+    private CostMap costMap;
     private double maxManualValue = Double.MIN_VALUE;
     private double minManualValue = Double.MAX_VALUE;
     private int current = 0;
@@ -37,10 +37,10 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
 
 
     @Override
-    public void println(@NotNull Manual manual) {
-        this.manual = manual;
-        Map<Position, Cost> costMap = manual.getCostMap();
-        for (Cost cost : costMap.values()) {
+    public void println(@NotNull CostMap costMap) {
+        this.costMap = costMap;
+        Map<Position, Cost> value = costMap.getCostMap();
+        for (Cost cost : value.values()) {
             if (cost.getValue() > maxManualValue)
                 maxManualValue = cost.getValue();
             if (cost.getValue() < minManualValue)
@@ -82,7 +82,7 @@ public class SimulationPanel extends JPanel implements SimulationOutput, ManualO
                             pos,
                             isCurrentPosition,
                             locType,
-                            normalize(manual.getCostMap().get(new Position(c, r))),
+                            normalize(costMap.getCostMap().get(new Position(c, r))),
                             movement.getProbabilities().get(new Position(c, r))), gbc);
                 }
             }

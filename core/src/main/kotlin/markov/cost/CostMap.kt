@@ -1,27 +1,18 @@
-package markov.manual
+package markov.cost
 
 import markov.map.Position
 import markov.map.SimulationMap
-import markov.movement.ActionType
 import markov.movement.Movement
 import kotlin.math.abs
 import kotlin.math.max
 
-data class Cost(val value: Double) {
-    companion object {
-        val INITIAL = Cost(100.0)
-        val DESTINATION = Cost(0.0)
-    }
-}
-
-data class Manual(val costMap: Map<Position, Cost>) {
-    val recommendActions = findRecommendActions()
+data class CostMap(val costMap: Map<Position, Cost>) {
     fun improve(
         simulationMap: SimulationMap,
         distanceMap: DistanceMap,
         movement: Movement,
         discountFactor: Double = DEFAULT_DISCOUNT_FACTOR
-    ): Manual {
+    ): CostMap {
         val nextCostMap = mutableMapOf<Position, Cost>()
         for (position in costMap.keys) {
             if (simulationMap.destination == position) {
@@ -38,38 +29,26 @@ data class Manual(val costMap: Map<Position, Cost>) {
             }
             nextCostMap[position] = Cost(baseCost + discountFactor * cost)
         }
-        return Manual(nextCostMap)
+        return CostMap(nextCostMap)
     }
 
-    private fun findRecommendActions(): Map<Position, ActionType> {
-        val recommendActions = mutableMapOf<Position, ActionType>()
-        for (position in costMap.keys) {
-            val bestAction = ActionType.entries.minBy { action ->
-                val nextPosition = position.next(action)
-                costMap.getOrDefault(nextPosition, Cost.INITIAL).value
-            }
-            recommendActions[position] = bestAction
-        }
-        return recommendActions
-    }
-
-    fun maxGapWith(manual: Manual): Double {
+    fun maxGapWith(costMap: CostMap): Double {
         var maxGap = Double.MIN_VALUE
         for (position in this.costMap.keys) {
-            maxGap = max(maxGap, abs(this.costMap[position]!!.value - manual.costMap[position]!!.value))
+            maxGap = max(maxGap, abs(this.costMap[position]!!.value - costMap.costMap[position]!!.value))
         }
         return maxGap
     }
 
     companion object {
         const val DEFAULT_DISCOUNT_FACTOR = 0.9
-        fun from(destination: Position, movement: Movement): Manual {
+        fun from(destination: Position, movement: Movement): CostMap {
             val initialCosts = mutableMapOf<Position, Cost>()
             movement.probabilities.keys.forEach { position ->
                 initialCosts[position] = Cost.INITIAL
             }
             initialCosts[destination] = Cost.DESTINATION
-            return Manual(initialCosts)
+            return CostMap(initialCosts)
         }
     }
 }

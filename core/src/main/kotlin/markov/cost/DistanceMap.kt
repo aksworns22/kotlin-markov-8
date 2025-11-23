@@ -1,4 +1,4 @@
-package markov.manual
+package markov.cost
 
 import markov.map.Position
 import markov.map.SimulationMap

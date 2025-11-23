@@ -1,7 +1,7 @@
 package markov;
 
-import markov.manual.Manual;
-import markov.manual.ManualController;
+import markov.cost.CostMap;
+import markov.cost.CostMapController;
 import markov.map.*;
 import markov.movement.Movement;
 import markov.movement.MovementController;
@@ -78,7 +78,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
         );
-        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -106,7 +106,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
         );
-        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -139,7 +139,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
         );
-        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -166,7 +166,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -196,7 +196,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -240,7 +240,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 map,
                 new SimulationTime(10),
@@ -266,7 +266,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 map,
                 new SimulationTime(1),
@@ -292,7 +292,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        Manual manual = new ManualController(simulationPanel).findBestManual(map, movement);
+        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 map,
                 new SimulationTime(1),

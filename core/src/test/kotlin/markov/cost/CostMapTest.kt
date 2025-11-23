@@ -1,4 +1,4 @@
-package markov.manual
+package markov.cost
 
 import markov.map.MapSize
 import markov.map.Position
@@ -15,7 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-class ManualTest {
+class CostMapTest {
     @ParameterizedTest
     @MethodSource("manhattanDistance")
     fun `도착지까지의 거리를 계산한다`(current: Position, destination: Position, expectedValue: Int) {
@@ -46,13 +46,13 @@ class ManualTest {
     @ParameterizedTest
     @MethodSource("rawMoving")
     fun `위치 별 확률을 바탕으로 초기 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
-        val initialManual = Manual.from(
+        val initialCostMap = CostMap.from(
             destination = Position(1, 1),
             Movement(rawMoving)
         )
-        assertThat(initialManual)
+        assertThat(initialCostMap)
             .isEqualTo(
-                Manual(
+                CostMap(
                     mapOf(
                         Position(0, 0) to Cost.INITIAL,
                         Position(0, 1) to Cost.INITIAL,
@@ -69,10 +69,10 @@ class ManualTest {
         val simulationMap =
             SimulationMap(MapSize(2, 2), start = Position(0, 0), destination = Position(1, 1), current = Position(0, 0))
         val distanceMap = DistanceMap.from(simulationMap)
-        val initialManual = Manual.from(destination = Position(1, 1), Movement(rawMoving))
-        assertThat(initialManual.improve(simulationMap, distanceMap, Movement(rawMoving)))
+        val initialCostMap = CostMap.from(destination = Position(1, 1), Movement(rawMoving))
+        assertThat(initialCostMap.improve(simulationMap, distanceMap, Movement(rawMoving)))
             .isEqualTo(
-                Manual(
+                CostMap(
                     mapOf(
                         Position(0, 0) to Cost(92.0),
                         Position(1, 0) to Cost(28.0),
@@ -87,36 +87,8 @@ class ManualTest {
     @MethodSource("rawMoving")
     fun `만들 수 있는 최선의 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
         val simulationMap = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
-        assertThatCode { ManualController(FakeOutput).findBestManual(simulationMap, Movement(rawMoving)) }
+        assertThatCode { CostMapController(FakeOutput).findCostMap(simulationMap, Movement(rawMoving)) }
             .doesNotThrowAnyException()
-    }
-
-    @Test
-    fun `거리 바탕 행동 메뉴얼을 통해 추천 이동 방향을 계산한다`() {
-        val manual = Manual.from(
-            Position(1, 0), Movement(
-                mapOf(
-                    Position(0, 0) to Action(
-                        mapOf(
-                            ActionType.UP to Probability(1, 25),
-                            ActionType.DOWN to Probability(26, 50),
-                            ActionType.RIGHT to Probability(51, 75),
-                            ActionType.LEFT to Probability(76, 100)
-                        )
-                    ),
-                    Position(1, 0) to Action(
-                        mapOf(
-                            ActionType.UP to Probability(1, 25),
-                            ActionType.DOWN to Probability(26, 50),
-                            ActionType.RIGHT to Probability(51, 75),
-                            ActionType.LEFT to Probability(76, 100)
-                        )
-                    )
-                )
-            )
-        )
-        assertThat(manual.recommendActions.size)
-            .isEqualTo(2)
     }
 
 
