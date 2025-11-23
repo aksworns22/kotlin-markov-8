@@ -131,6 +131,14 @@ $$V(s) = R(s) + \gamma \sum_{s'} P(s'|s)V(s')$$
 
 ## 실행 방법
 
+### 테스트 및 실행 환경
+
+이 프로젝트는 다음 환경에서 개발되었고 실행을 확인했습니다.
+
+- JDK 21
+- Kotlin 2.2.0
+- Gradle 8.14.3
+
 ### 입력 데이터 구성
 
 입력 데이터는`core/src/main/resources` 경로의 파일을 수정하여 시뮬레이션 환경을 변경할 수 있습니다.
@@ -164,6 +172,38 @@ s . .
 0,0:25,25,25,25
 ...
 ```
+
+
+### 애플리케이션 실행
+
+프로젝트에 포함된 gradlew 를 사용하여 간편하게 실행할 수 있습니다.
+
+#### CLI 실행 (`app-cli`)
+
+콘솔 환경에서 텍스트로 시뮬레이션 결과와 계산된 비용을 확인할 수 있습니다.
+`--args` 옵션을 통해 시뮬레이션 제한 시간을 설정할 수 있습니다.
+
+```bash
+# 사용법: ./gradlew :app-cli:run --args="[시간]"
+./gradlew :app-cli:run --args=10
+```
+
+#### CLI 실행 (`app-cli`)
+
+```bash
+# 사용법: ./gradlew :app-cli:run --args="[시간]"
+./gradlew :app-cli:run --args=10
+```
+
+### app-gui 실행 방법
+
+Java Swing을 통해 이동과 비용 지도를 시각적으로 확인할 수 있습니다.
+
+```bash
+# 사용법: ./gradlew :app-gui:run --args=[시간]
+./gradlew :app-gui:run --args=10
+```
+
 
 ## 구현 할 기능 목록
 
