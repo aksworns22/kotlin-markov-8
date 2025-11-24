@@ -19,18 +19,19 @@ value class Action(val probabilities: Map<ActionType, Probability>) {
 
     fun chooseAction(probability: Int): ActionType {
         for (action in ActionType.entries) {
-            val actionProbability = probabilities[action] ?: throw IllegalStateException("$action 이 정의되지 않았습니다")
+            val actionProbability = probabilities[action] ?: throw IllegalStateException(INVALID_ACTION_ERROR_MESSAGE)
             if (probability in actionProbability.range) {
                 return action
             }
         }
-        throw IllegalArgumentException("확률 값은 1이상 100미만의 정수여야만 합니다")
+        throw IllegalArgumentException(INVALID_PROBABILITY_ERROR_MESSAGE)
     }
 
     companion object {
         const val TOTAL_PROBABILITY = 100
-        const val INVALID_PROBABILITY_ERROR_MESSAGE = "올바른 형태의 이동 확률이 아닙니다"
+        const val INVALID_PROBABILITY_ERROR_MESSAGE = "올바른 이동 확률이 아닙니다"
         const val NEGATIVE_PROBABILITY_ERROR_MESSAGE = "확률은 음수일 수 없습니다"
+        const val INVALID_ACTION_ERROR_MESSAGE = "정의되지 않은 액션입니다"
         fun of(rawActions: String): Action {
             val splitActions = rawActions.split(",")
             val probabilities = mutableMapOf<ActionType, Probability>()
