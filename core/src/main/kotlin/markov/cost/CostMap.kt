@@ -19,13 +19,15 @@ data class CostMap(val costMap: Map<Position, Cost>) {
                 nextCostMap[position] = Cost.DESTINATION
                 continue
             }
-            val baseCost: Double = distanceMap.values[position]!!.value.toDouble()
+            val baseCost: Double = distanceMap.values.getValue(position).value.toDouble()
             var cost = Cost.MIN.value
-            for (actions in movement.probabilities[position]!!.probabilities) {
+            for (actions in movement.probabilities.getValue(position).probabilities) {
                 val action = actions.key
                 val probability = actions.value
                 val probabilityForCost = probability.range.count() / 100.0
-                cost += probabilityForCost * this.costMap[simulationMap.nextPosition(position.next(action))]!!.value
+                cost += probabilityForCost * this.costMap.getValue(
+                    simulationMap.nextPosition(position.next(action))
+                ).value
             }
             nextCostMap[position] = Cost(baseCost + discountFactor * cost)
         }
@@ -35,7 +37,7 @@ data class CostMap(val costMap: Map<Position, Cost>) {
     fun maxGapWith(costMap: CostMap): Double {
         var maxGap = Double.MIN_VALUE
         for (position in this.costMap.keys) {
-            maxGap = max(maxGap, abs(this.costMap[position]!!.value - costMap.costMap[position]!!.value))
+            maxGap = max(maxGap, abs(this.costMap.getValue(position).value - costMap.costMap.getValue(position).value))
         }
         return maxGap
     }
