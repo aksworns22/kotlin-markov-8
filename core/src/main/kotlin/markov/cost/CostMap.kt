@@ -20,11 +20,11 @@ data class CostMap(val costMap: Map<Position, Cost>) {
                 continue
             }
             val baseCost: Double = distanceMap.values[position]!!.value.toDouble()
-            var cost = 0.0
+            var cost = Cost.MIN.value
             for (actions in movement.probabilities[position]!!.probabilities) {
                 val action = actions.key
                 val probability = actions.value
-                val probabilityForCost = (probability.end - probability.start + 1) / 100.0
+                val probabilityForCost = probability.range.count() / 100.0
                 cost += probabilityForCost * this.costMap[simulationMap.nextPosition(position.next(action))]!!.value
             }
             nextCostMap[position] = Cost(baseCost + discountFactor * cost)
