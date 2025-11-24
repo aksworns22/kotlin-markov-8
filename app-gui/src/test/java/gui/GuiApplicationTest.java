@@ -8,6 +8,7 @@ import markov.movement.MovementController;
 import markov.random.OneToHundredRandomGenerator;
 import markov.simulation.SimulationController;
 import markov.simulation.SimulationTime;
+import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
@@ -34,7 +35,7 @@ public class GuiApplicationTest {
         messageLogger = new MessageLogger();
         simulationPanel = new SimulationPanel(new MovementController(new MapSize(2, 2), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
-        ));
+        ), new SimulationResultDialog());
         MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger, simulationPanel));
         window = new FrameFixture(frame);
         window.show();
@@ -250,9 +251,9 @@ public class GuiApplicationTest {
         simulationPanel.paintSimulation();
         window.moveTo(new Point(0, 0));
         window.resizeTo(new Dimension(1000, 800));
-        window.label("turn").requireText("현재 턴: 0");
-        window.button("nextSimulation").click();
         window.label("turn").requireText("현재 턴: 1");
+        window.button("nextSimulation").click();
+        window.label("turn").requireText("현재 턴: 2");
     }
 
     @Test

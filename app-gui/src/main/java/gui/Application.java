@@ -20,7 +20,7 @@ public class Application {
             return;
         }
         MessageLogger messageLogger = new MessageLogger();
-        SimulationPanel simulationPanel = new SimulationPanel(null);
+        SimulationPanel simulationPanel = new SimulationPanel(null, new SimulationResultDialog());
         try {
             SimulationTime simulationTime = SimulationTime.Companion.of(args[0]);
             SimulationMap map = new SimulationMapController(messageLogger).readMap(
@@ -30,7 +30,7 @@ public class Application {
                     map.getSize(),
                     messageLogger
             ).readMovement(MovementReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.PROBABILITY)));
-            simulationPanel = new SimulationPanel(movement);
+            simulationPanel = new SimulationPanel(movement, new SimulationResultDialog());
             new CostMapController(simulationPanel).findCostMap(map, movement);
             new SimulationController(simulationPanel).startFrom(
                     map,

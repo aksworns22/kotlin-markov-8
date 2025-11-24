@@ -9,6 +9,7 @@ import markov.movement.Movement;
 import markov.output.CostMapOutput;
 import markov.output.SimulationOutput;
 import markov.simulation.Simulation;
+import markov.simulation.SimulationState;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -18,14 +19,16 @@ import java.util.Map;
 
 public class SimulationPanel extends JPanel implements SimulationOutput, CostMapOutput {
     private ArrayList<Simulation> resultQueue = new ArrayList<>();
+    private SimulationResultListener simulationResultListener;
     private final Movement movement;
     private CostMap costMap;
     private double maxManualValue = Double.MIN_VALUE;
     private double minManualValue = Double.MAX_VALUE;
     private int current = 0;
 
-    SimulationPanel(Movement movement) {
+    SimulationPanel(Movement movement, SimulationResultListener simulationResultListener) {
         this.movement = movement;
+        this.simulationResultListener = simulationResultListener;
         setName("simulationPanel");
         setLayout(new GridBagLayout());
     }
@@ -52,9 +55,11 @@ public class SimulationPanel extends JPanel implements SimulationOutput, CostMap
         return (cost.getValue() - minManualValue) / (maxManualValue - minManualValue);
     }
 
-    public void paintSimulation() {
-        if (current >= resultQueue.size())
-            return;
+    public SimulationState paintSimulation() {
+        if (current >= resultQueue.size()) {
+            return resultQueue.getLast().getState();
+        }
+
         Simulation currentSimulation = resultQueue.get(current);
         SimulationMap map = currentSimulation.getMap();
         removeAll();
@@ -87,27 +92,18 @@ public class SimulationPanel extends JPanel implements SimulationOutput, CostMap
                 }
             }
         }
-        if (current == resultQueue.size() - 1) {
-            if (currentSimulation.isFail()) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "시간 제한 내에 목적지에 도착하지 못했습니다",
-                        "Simulation Fail",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                return;
-            }
-            if (currentSimulation.isSuccess()) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "시간 제한 내에 목적지에 도착했습니다",
-                        "Simulation Success",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-            }
-        }
         current += 1;
         revalidate();
         repaint();
+        if (current == resultQueue.size()) {
+            if (currentSimulation.isFail()) {
+                simulationResultListener.onFail(this);
+            }
+            if (currentSimulation.isSuccess()) {
+                simulationResultListener.onSuccess(this);
+            }
+            return resultQueue.getLast().getState();
+        }
+        return SimulationState.RUNNING;
     }
 }

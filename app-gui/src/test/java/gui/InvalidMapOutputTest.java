@@ -42,7 +42,7 @@ public class InvalidMapOutputTest {
         SimulationPanel simulationPanel = new SimulationPanel(
                 new MovementController(new MapSize(2, 2), messageLogger).readMovement(
                         List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
-                ));
+                ), new SimulationResultDialog());
         MainFrame frame = GuiActionRunner.execute(() -> new MainFrame(messageLogger, simulationPanel));
         window = new FrameFixture(frame);
         window.show();
