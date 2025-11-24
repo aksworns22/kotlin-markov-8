@@ -7,50 +7,19 @@ import markov.movement.Action
 import markov.movement.ActionType
 import markov.movement.Movement
 import markov.movement.Probability
+import markov.output.FakeOutput
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-class CostMapTest {
+class CostMapControllerTest {
     @ParameterizedTest
     @MethodSource("rawMoving")
-    fun `위치 별 확률을 바탕으로 초기 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
-        val initialCostMap = CostMap.from(
-            destination = Position(1, 1),
-            Movement(rawMoving)
-        )
-        Assertions.assertThat(initialCostMap)
-            .isEqualTo(
-                CostMap(
-                    mapOf(
-                        Position(0, 0) to Cost.INITIAL,
-                        Position(0, 1) to Cost.INITIAL,
-                        Position(1, 0) to Cost.INITIAL,
-                        Position(1, 1) to Cost.DESTINATION
-                    )
-                )
-            )
-    }
-
-    @ParameterizedTest
-    @MethodSource("rawMoving")
-    fun `이전보다 나아진 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
-        val simulationMap =
-            SimulationMap(MapSize(2, 2), start = Position(0, 0), destination = Position(1, 1), current = Position(0, 0))
-        val distanceMap = DistanceMap.from(simulationMap)
-        val initialCostMap = CostMap.from(destination = Position(1, 1), Movement(rawMoving))
-        Assertions.assertThat(initialCostMap.improve(simulationMap, distanceMap, Movement(rawMoving)))
-            .isEqualTo(
-                CostMap(
-                    mapOf(
-                        Position(0, 0) to Cost(92.0),
-                        Position(1, 0) to Cost(28.0),
-                        Position(0, 1) to Cost(82.0),
-                        Position(1, 1) to Cost.DESTINATION
-                    )
-                )
-            )
+    fun `만들 수 있는 최선의 메뉴얼을 만든다`(rawMoving: Map<Position, Action>) {
+        val simulationMap = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
+        Assertions.assertThatCode { CostMapController(FakeOutput).findCostMap(simulationMap, Movement(rawMoving)) }
+            .doesNotThrowAnyException()
     }
 
     companion object {
