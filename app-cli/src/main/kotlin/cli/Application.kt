@@ -7,7 +7,7 @@ import markov.map.MapReader
 import markov.map.SimulationMapController
 import markov.movement.MovementController
 import markov.movement.MovementReader
-import markov.random.OneToHundredGenerator
+import markov.random.OneToHundredRandomGenerator
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
 import java.io.InputStream
@@ -20,7 +20,7 @@ fun runApplication(mapStream: InputStream, movementStream: InputStream, simulati
             Console
         ).readMovement(MovementReader.read(movementStream))
     CostMapController(Console).findCostMap(map, movement!!)
-    SimulationController(Console).startFrom(map, SimulationTime(10), movement, OneToHundredGenerator)
+    SimulationController(Console).startFrom(map, SimulationTime(10), movement, OneToHundredRandomGenerator)
 }
 
 fun main(args: Array<String>) {

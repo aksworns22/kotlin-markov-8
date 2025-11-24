@@ -1,14 +1,11 @@
 package gui;
 
-import gui.MainFrame;
-import gui.MessageLogger;
-import gui.SimulationPanel;
 import markov.cost.CostMap;
 import markov.cost.CostMapController;
 import markov.map.*;
 import markov.movement.Movement;
 import markov.movement.MovementController;
-import markov.random.OneToHundredGenerator;
+import markov.random.OneToHundredRandomGenerator;
 import markov.simulation.SimulationController;
 import markov.simulation.SimulationTime;
 import org.assertj.swing.edt.GuiActionRunner;
@@ -91,7 +88,7 @@ public class GuiApplicationTest {
                 ),
                 new SimulationTime(10),
                 movement,
-                OneToHundredGenerator.INSTANCE
+                OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
         window.panel("simulationPanel").panel("Position(0,0) - START").requireVisible();
@@ -119,7 +116,7 @@ public class GuiApplicationTest {
                 ),
                 new SimulationTime(10),
                 movement,
-                OneToHundredGenerator.INSTANCE
+                OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
         Color defaultColor = new JPanel().getBackground();
@@ -152,7 +149,7 @@ public class GuiApplicationTest {
                 ),
                 new SimulationTime(10),
                 movement,
-                OneToHundredGenerator.INSTANCE
+                OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
         window.panel("simulationPanel").panel("Position(0,0) - START").label("Current").requireVisible();
@@ -179,7 +176,7 @@ public class GuiApplicationTest {
                 ),
                 new SimulationTime(10),
                 movement,
-                OneToHundredGenerator.INSTANCE
+                OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
         window.moveTo(new Point(0, 0));
@@ -209,7 +206,7 @@ public class GuiApplicationTest {
                 ),
                 new SimulationTime(2),
                 movement,
-                OneToHundredGenerator.INSTANCE
+                OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
         assertThat(window.panel("simulationPanel")).satisfies((panel) -> {
@@ -248,7 +245,7 @@ public class GuiApplicationTest {
                 map,
                 new SimulationTime(10),
                 movement,
-                OneToHundredGenerator.INSTANCE
+                OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
         window.moveTo(new Point(0, 0));
@@ -274,7 +271,7 @@ public class GuiApplicationTest {
                 map,
                 new SimulationTime(1),
                 movement,
-                OneToHundredGenerator.INSTANCE
+                OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
         window.moveTo(new Point(0, 0));
@@ -300,7 +297,7 @@ public class GuiApplicationTest {
                 map,
                 new SimulationTime(1),
                 movement,
-                OneToHundredGenerator.INSTANCE
+                OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
         window.moveTo(new Point(0, 0));

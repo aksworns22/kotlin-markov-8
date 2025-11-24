@@ -2,7 +2,7 @@ package markov.random
 
 import kotlin.random.Random
 
-object OneToHundredGenerator : RandomGenerator {
+object OneToHundredRandomGenerator : RandomGenerator {
     override fun generate(): Int {
         return Random.nextInt(1, 101)
     }

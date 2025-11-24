@@ -10,7 +10,7 @@ import markov.map.SimulationMapController;
 import markov.movement.Movement;
 import markov.movement.MovementController;
 import markov.movement.MovementReader;
-import markov.random.OneToHundredGenerator;
+import markov.random.OneToHundredRandomGenerator;
 import markov.simulation.SimulationController;
 import markov.simulation.SimulationTime;
 
@@ -34,7 +34,7 @@ public class Application {
         CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 map,
-                simulationTime, movement, OneToHundredGenerator.INSTANCE
+                simulationTime, movement, OneToHundredRandomGenerator.INSTANCE
         );
         simulationPanel.paintSimulation();
     }
