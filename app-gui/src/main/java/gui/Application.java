@@ -2,7 +2,6 @@ package gui;
 
 import markov.input.Data;
 import markov.input.DataLoader;
-import markov.cost.CostMap;
 import markov.cost.CostMapController;
 import markov.map.MapReader;
 import markov.map.SimulationMap;
@@ -21,11 +20,10 @@ public class Application {
             return;
         }
         MessageLogger messageLogger = new MessageLogger();
-        SimulationMap map;
         SimulationPanel simulationPanel = new SimulationPanel(null);
         try {
             SimulationTime simulationTime = SimulationTime.Companion.of(args[0]);
-            map = new SimulationMapController(messageLogger).readMap(
+            SimulationMap map = new SimulationMapController(messageLogger).readMap(
                     MapReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.MAP))
             );
             Movement movement = new MovementController(
@@ -33,7 +31,7 @@ public class Application {
                     messageLogger
             ).readMovement(MovementReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.PROBABILITY)));
             simulationPanel = new SimulationPanel(movement);
-            CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+            new CostMapController(simulationPanel).findCostMap(map, movement);
             new SimulationController(simulationPanel).startFrom(
                     map,
                     simulationTime, movement, OneToHundredRandomGenerator.INSTANCE
@@ -42,8 +40,7 @@ public class Application {
         } catch (Exception error) {
             System.out.println("오류가 발생해 프로그램을 종료합니다");
         } finally {
-            MainFrame mainFrame = new MainFrame(messageLogger, simulationPanel);
+            new MainFrame(messageLogger, simulationPanel);
         }
-
     }
 }
