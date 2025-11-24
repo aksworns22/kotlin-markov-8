@@ -31,7 +31,7 @@ import java.io.PrintStream
 import java.nio.file.Path
 import kotlin.io.path.writeText
 
-class OutputTest {
+class ConsoleTest {
     private lateinit var outputStream: OutputStream
 
     @BeforeEach
@@ -64,25 +64,25 @@ class OutputTest {
             mapOf(
                 Position(0, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.Companion.ZERO,
-                        ActionType.DOWN to Probability.Companion.ZERO,
-                        ActionType.LEFT to Probability.Companion.ZERO,
+                        ActionType.UP to Probability.ZERO,
+                        ActionType.DOWN to Probability.ZERO,
+                        ActionType.LEFT to Probability.ZERO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 ),
                 Position(1, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.Companion.ZERO,
-                        ActionType.DOWN to Probability.Companion.ZERO,
-                        ActionType.LEFT to Probability.Companion.ZERO,
+                        ActionType.UP to Probability.ZERO,
+                        ActionType.DOWN to Probability.ZERO,
+                        ActionType.LEFT to Probability.ZERO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 ),
                 Position(2, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.Companion.ZERO,
-                        ActionType.DOWN to Probability.Companion.ZERO,
-                        ActionType.LEFT to Probability.Companion.ZERO,
+                        ActionType.UP to Probability.ZERO,
+                        ActionType.DOWN to Probability.ZERO,
+                        ActionType.LEFT to Probability.ZERO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 )
@@ -110,9 +110,9 @@ class OutputTest {
             mapOf(
                 Position(0, 0) to Action(
                     mapOf(
-                        ActionType.UP to Probability.Companion.ZERO,
-                        ActionType.DOWN to Probability.Companion.ZERO,
-                        ActionType.LEFT to Probability.Companion.ZERO,
+                        ActionType.UP to Probability.ZERO,
+                        ActionType.DOWN to Probability.ZERO,
+                        ActionType.LEFT to Probability.ZERO,
                         ActionType.RIGHT to Probability(1, 100),
                     )
                 )
@@ -188,7 +188,7 @@ class OutputTest {
     fun `계산한 행동 매뉴얼을 출력한다`() {
         val map = SimulationMap(MapSize(2, 2), Position(0, 0), Position(1, 1), Position(0, 0))
         CostMapController(Console).findCostMap(
-            map, Movement.Companion.of(
+            map, Movement.of(
                 listOf(
                     "0,0:10,10,10,70",
                     "1,0:10,10,10,70",
