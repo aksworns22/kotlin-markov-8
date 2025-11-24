@@ -1,8 +1,5 @@
 package gui;
 
-import gui.MainFrame;
-import gui.MessageLogger;
-import gui.SimulationPanel;
 import markov.InvalidFixtures;
 import markov.map.MapSize;
 import markov.movement.MovementController;
