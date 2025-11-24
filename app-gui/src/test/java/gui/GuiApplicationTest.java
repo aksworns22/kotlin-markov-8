@@ -73,7 +73,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
         );
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+        new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -101,7 +101,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
         );
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+        new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -134,7 +134,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:10,20,30,40", "1,0:25,25,25,25", "0,1:70,20,10,0", "1,1:100,0,0,0")
         );
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+        new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -161,7 +161,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+        new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -191,7 +191,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+        new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 new SimulationMap(
                         new MapSize(2, 2),
@@ -235,7 +235,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+        new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 map,
                 new SimulationTime(10),
@@ -260,7 +260,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+        new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 map,
                 new SimulationTime(1),
@@ -286,7 +286,7 @@ public class GuiApplicationTest {
         Movement movement = new MovementController(map.getSize(), messageLogger).readMovement(
                 List.of("0,0:0,100,0,0", "1,0:0,100,0,0", "0,1:0,100,0,0", "1,1:0,100,0,0")
         );
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+        new CostMapController(simulationPanel).findCostMap(map, movement);
         new SimulationController(simulationPanel).startFrom(
                 map,
                 new SimulationTime(1),
