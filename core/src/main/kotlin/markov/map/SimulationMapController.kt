@@ -8,7 +8,10 @@ class SimulationMapController(val output: MessageOutput) {
     fun readMap(rawMap: List<String>): SimulationMap? {
         try {
             val simulationMap =
-                getSimulationMap(rawMap[MAP_SIZE_FILE_LINE], rawMap.subList(MAP_SIZE_FILE_LINE, rawMap.size))
+                getSimulationMap(
+                    rawMap[MAP_SIZE_FILE_LINE_NUMBER],
+                    rawMap.subList(MAP_CONTENT_FILE_START_LINE_NUMBER, rawMap.size)
+                )
             output.println(Message(MessageType.SUCCESS, Message.MAP_CREATION_SUCCESS))
             return simulationMap
         } catch (err: IllegalArgumentException) {
@@ -29,7 +32,8 @@ class SimulationMapController(val output: MessageOutput) {
     }
 
     companion object {
-        const val MAP_SIZE_FILE_LINE = 1
+        const val MAP_SIZE_FILE_LINE_NUMBER = 0
+        const val MAP_CONTENT_FILE_START_LINE_NUMBER = 1
         const val SIZE_DELIMITER = "x"
         const val REQUIRED_COMPONENT_SIZE = 2
         const val WIDTH_INDEX = 0
