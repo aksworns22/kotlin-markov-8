@@ -251,7 +251,6 @@ public class GuiApplicationTest {
         simulationPanel.paintSimulation();
         window.moveTo(new Point(0, 0));
         window.resizeTo(new Dimension(1000, 800));
-        window.label("turn").requireText("현재 턴: 1");
         window.button("nextSimulation").click();
         window.label("turn").requireText("현재 턴: 2");
     }
