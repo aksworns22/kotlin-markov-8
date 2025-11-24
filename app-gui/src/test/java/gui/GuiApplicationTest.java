@@ -8,22 +8,16 @@ import markov.movement.MovementController;
 import markov.random.OneToHundredRandomGenerator;
 import markov.simulation.SimulationController;
 import markov.simulation.SimulationTime;
-import org.assertj.swing.core.matcher.JButtonMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.swing.core.matcher.JButtonMatcher.withText;
-import static org.assertj.swing.timing.Pause.pause;
 
 public class GuiApplicationTest {
     private FrameFixture window;

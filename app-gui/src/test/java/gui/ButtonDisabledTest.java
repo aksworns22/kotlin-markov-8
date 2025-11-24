@@ -1,8 +1,5 @@
 package gui;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -11,14 +8,12 @@ import markov.cost.CostMapController;
 import markov.map.MapSize;
 import markov.map.Position;
 import markov.map.SimulationMap;
-import markov.map.SimulationMapController;
 import markov.movement.Movement;
 import markov.movement.MovementController;
 import markov.random.OneToHundredRandomGenerator;
 import markov.simulation.SimulationController;
 import markov.simulation.SimulationTime;
 import org.assertj.swing.edt.GuiActionRunner;
-import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;
