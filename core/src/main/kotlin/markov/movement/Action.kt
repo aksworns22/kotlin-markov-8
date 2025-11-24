@@ -31,7 +31,7 @@ value class Action(val probabilities: Map<ActionType, Probability>) {
             val probabilities = mutableMapOf<ActionType, Probability>()
             var start = START_PROBABILITY
             for (i in 0..<splitActions.size) {
-                val rawProbability = splitActions[i].toIntOrNull() ?: throw java.lang.IllegalStateException(
+                val rawProbability = splitActions[i].toIntOrNull() ?: throw IllegalArgumentException(
                     INVALID_PROBABILITY_ERROR_MESSAGE
                 )
                 require(rawProbability >= 0) { NEGATIVE_PROBABILITY_ERROR_MESSAGE }
