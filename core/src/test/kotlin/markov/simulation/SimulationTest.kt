@@ -90,9 +90,9 @@ class SimulationTest {
                         Position(0, 0) to Action(
                             mapOf(
                                 ActionType.UP to Probability(start = 1, end = 100),
-                                ActionType.DOWN to Probability.NO,
-                                ActionType.LEFT to Probability.NO,
-                                ActionType.RIGHT to Probability.NO
+                                ActionType.DOWN to Probability.ZERO,
+                                ActionType.LEFT to Probability.ZERO,
+                                ActionType.RIGHT to Probability.ZERO
                             )
                         )
                     )
@@ -101,10 +101,10 @@ class SimulationTest {
                     mapOf(
                         Position(0, 0) to Action(
                             mapOf(
-                                ActionType.UP to Probability.NO,
+                                ActionType.UP to Probability.ZERO,
                                 ActionType.DOWN to Probability(start = 1, end = 100),
-                                ActionType.LEFT to Probability.NO,
-                                ActionType.RIGHT to Probability.NO
+                                ActionType.LEFT to Probability.ZERO,
+                                ActionType.RIGHT to Probability.ZERO
                             )
                         )
                     )
@@ -113,10 +113,10 @@ class SimulationTest {
                     mapOf(
                         Position(0, 0) to Action(
                             mapOf(
-                                ActionType.UP to Probability.NO,
-                                ActionType.DOWN to Probability.NO,
+                                ActionType.UP to Probability.ZERO,
+                                ActionType.DOWN to Probability.ZERO,
                                 ActionType.LEFT to Probability(start = 1, end = 100),
-                                ActionType.RIGHT to Probability.NO
+                                ActionType.RIGHT to Probability.ZERO
                             )
                         )
                     )
@@ -125,9 +125,9 @@ class SimulationTest {
                     mapOf(
                         Position(0, 0) to Action(
                             mapOf(
-                                ActionType.UP to Probability.NO,
-                                ActionType.DOWN to Probability.NO,
-                                ActionType.LEFT to Probability.NO,
+                                ActionType.UP to Probability.ZERO,
+                                ActionType.DOWN to Probability.ZERO,
+                                ActionType.LEFT to Probability.ZERO,
                                 ActionType.RIGHT to Probability(start = 1, end = 100)
                             )
                         )

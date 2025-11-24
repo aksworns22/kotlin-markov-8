@@ -1,13 +1,5 @@
 package markov.movement
 
-data class Probability(val start: Int, val end: Int) {
-    val range = start..end
-
-    companion object {
-        val NO = Probability(1, 0)
-    }
-}
-
 @JvmInline
 value class Action(val probabilities: Map<ActionType, Probability>) {
     init {
