@@ -33,7 +33,7 @@
 
 ### GUI 실행 화면
 
-[app-gui](./assets/app-gui-execution.gif)
+![app-gui](./assets/app-gui-execution.gif)
 
 ### 주요 기능
 
