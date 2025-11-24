@@ -24,7 +24,7 @@ public class SimulationPanel extends JPanel implements SimulationOutput, CostMap
     private CostMap costMap;
     private double maxManualValue = Double.MIN_VALUE;
     private double minManualValue = Double.MAX_VALUE;
-    private int current = 0;
+    public int current = 0;
 
     SimulationPanel(Movement movement, SimulationResultListener simulationResultListener) {
         this.movement = movement;
