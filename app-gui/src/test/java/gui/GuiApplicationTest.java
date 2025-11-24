@@ -1,6 +1,5 @@
 package gui;
 
-import markov.cost.CostMap;
 import markov.cost.CostMapController;
 import markov.map.*;
 import markov.movement.Movement;
