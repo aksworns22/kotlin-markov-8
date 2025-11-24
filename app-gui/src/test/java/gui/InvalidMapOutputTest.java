@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @RunWith(Parameterized.class)
 public class InvalidMapOutputTest {
@@ -54,7 +55,9 @@ public class InvalidMapOutputTest {
 
     @Test
     public void shouldDisplayMessageWhenMapLoadsFail() {
-        new SimulationMapController(messageLogger).readMap(invalidMapData);
+        assertThatThrownBy(() -> new SimulationMapController(messageLogger).readMap(invalidMapData))
+                .isInstanceOf(IllegalArgumentException.class);
+
         String text = window.textBox("messageLog").text();
         assertThat(text).contains("[ERROR]");
     }

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @RunWith(Parameterized.class)
 public class InvalidMovementOutputTest {
@@ -58,7 +59,7 @@ public class InvalidMovementOutputTest {
 
     @Test
     public void shouldDisplayMessageWhenMovementLoadsFail() {
-        new MovementController(mapSize, messageLogger).readMovement(invalidMovementData);
+        assertThatThrownBy(() -> new MovementController(mapSize, messageLogger).readMovement(invalidMovementData));
         String text = window.textBox("messageLog").text();
         assertThat(text).contains("[ERROR]");
     }

@@ -6,7 +6,7 @@ import markov.output.MessageOutput
 import markov.output.MessageType
 
 class MovementController(val mapSize: MapSize, val output: MessageOutput) {
-    fun readMovement(rawMovement: List<String>): Movement? {
+    fun readMovement(rawMovement: List<String>): Movement {
         try {
             val movement = Movement.of(rawMovement)
             movement.validateWith(mapSize)
@@ -14,7 +14,7 @@ class MovementController(val mapSize: MapSize, val output: MessageOutput) {
             return movement
         } catch (err: IllegalArgumentException) {
             output.println(Message(MessageType.ERROR, err.message!!))
+            throw IllegalArgumentException(err.message ?: Message.UNEXPECTED_ERROR)
         }
-        return null
     }
 }

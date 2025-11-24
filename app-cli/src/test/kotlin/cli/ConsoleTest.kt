@@ -18,6 +18,8 @@ import markov.random.OnlyOneGenerator
 import markov.simulation.SimulationController
 import markov.simulation.SimulationTime
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -133,8 +135,10 @@ class ConsoleTest {
     @ParameterizedTest
     @MethodSource("readingMapWithError")
     fun `지도를 읽어오는 기능에 문제가 있다면 ERROR로 시작하는 에러 메시지를 출력한다`(rawMap: List<String>) {
-        SimulationMapController(Console).readMap(rawMap)
-        Assertions.assertThat(output()).contains("[ERROR]")
+        assertThatThrownBy {
+            SimulationMapController(Console).readMap(rawMap)
+        }.isInstanceOf(IllegalArgumentException::class.java)
+        assertThat(output()).contains("[ERROR]")
     }
 
 
@@ -180,7 +184,10 @@ class ConsoleTest {
         mapSize: MapSize,
         rawMovement: List<String>
     ) {
-        MovementController(mapSize, Console).readMovement(rawMovement)
+        assertThatThrownBy {
+            MovementController(mapSize, Console).readMovement(rawMovement)
+        }.isInstanceOf(IllegalArgumentException::class.java)
+
         Assertions.assertThat(output()).contains("[ERROR]")
     }
 

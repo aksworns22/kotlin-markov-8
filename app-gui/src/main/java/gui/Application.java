@@ -20,22 +20,30 @@ public class Application {
             System.out.println("시뮬레이션 시간만을 인자로 전달해야합니다.");
             return;
         }
-        SimulationTime simulationTime = SimulationTime.Companion.of(args[0]);
         MessageLogger messageLogger = new MessageLogger();
-        SimulationMap map = new SimulationMapController(messageLogger).readMap(
-                MapReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.MAP))
-        );
-        Movement movement = new MovementController(
-                map.getSize(),
-                messageLogger
-        ).readMovement(MovementReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.PROBABILITY)));
-        SimulationPanel simulationPanel = new SimulationPanel(movement);
-        MainFrame mainFrame = new MainFrame(messageLogger, simulationPanel);
-        CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
-        new SimulationController(simulationPanel).startFrom(
-                map,
-                simulationTime, movement, OneToHundredRandomGenerator.INSTANCE
-        );
-        simulationPanel.paintSimulation();
+        SimulationMap map;
+        SimulationPanel simulationPanel = new SimulationPanel(null);
+        try {
+            SimulationTime simulationTime = SimulationTime.Companion.of(args[0]);
+            map = new SimulationMapController(messageLogger).readMap(
+                    MapReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.MAP))
+            );
+            Movement movement = new MovementController(
+                    map.getSize(),
+                    messageLogger
+            ).readMovement(MovementReader.INSTANCE.read(DataLoader.INSTANCE.load(Data.PROBABILITY)));
+            simulationPanel = new SimulationPanel(movement);
+            CostMap costMap = new CostMapController(simulationPanel).findCostMap(map, movement);
+            new SimulationController(simulationPanel).startFrom(
+                    map,
+                    simulationTime, movement, OneToHundredRandomGenerator.INSTANCE
+            );
+            simulationPanel.paintSimulation();
+        } catch (Exception error) {
+            System.out.println("오류가 발생해 프로그램을 종료합니다");
+        } finally {
+            MainFrame mainFrame = new MainFrame(messageLogger, simulationPanel);
+        }
+
     }
 }

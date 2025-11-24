@@ -16,8 +16,8 @@ class SimulationMapController(val output: MessageOutput) {
             return simulationMap
         } catch (err: IllegalArgumentException) {
             output.println(Message(MessageType.ERROR, err.message ?: Message.UNEXPECTED_ERROR))
+            throw IllegalArgumentException(err.message ?: Message.UNEXPECTED_ERROR)
         }
-        return null
     }
 
     private fun getMapSize(rawMapDeclaration: String): MapSize {
