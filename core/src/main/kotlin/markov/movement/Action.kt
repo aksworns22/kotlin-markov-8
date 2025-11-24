@@ -20,16 +20,20 @@ value class Action(val probabilities: Map<ActionType, Probability>) {
     }
 
     companion object {
+        const val START_PROBABILITY = 1
         const val TOTAL_PROBABILITY = 100
         const val INVALID_PROBABILITY_ERROR_MESSAGE = "올바른 이동 확률이 아닙니다"
         const val NEGATIVE_PROBABILITY_ERROR_MESSAGE = "확률은 음수일 수 없습니다"
         const val INVALID_ACTION_ERROR_MESSAGE = "정의되지 않은 액션입니다"
+        const val PROBABILITY_DELIMITER = ","
         fun of(rawActions: String): Action {
-            val splitActions = rawActions.split(",")
+            val splitActions = rawActions.split(PROBABILITY_DELIMITER)
             val probabilities = mutableMapOf<ActionType, Probability>()
-            var start = 1
+            var start = START_PROBABILITY
             for (i in 0..<splitActions.size) {
-                val rawProbability = splitActions[i].toInt()
+                val rawProbability = splitActions[i].toIntOrNull() ?: throw java.lang.IllegalStateException(
+                    INVALID_PROBABILITY_ERROR_MESSAGE
+                )
                 require(rawProbability >= 0) { NEGATIVE_PROBABILITY_ERROR_MESSAGE }
                 probabilities[ActionType.entries[i]] = Probability(start, start + rawProbability - 1)
                 start += rawProbability
